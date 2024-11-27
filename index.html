@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Nastavení znakové sady a základních vlastností -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Objednávkový systém</title>
+  <!-- Odkaz na Bootstrap CSS pro stylování -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <!-- Hlavička stránky -->
+    <h1 class="text-center">Objednávkový systém</h1>
+    <!-- Formulář pro zadání čísla stolu a výběr jídla -->
+    <form id="orderForm" class="mt-4">
+      <div class="mb-3">
+        <!-- Pole pro číslo stolu -->
+        <label for="table" class="form-label">Číslo stolu:</label>
+        <input type="number" class="form-control" id="table" placeholder="Zadejte číslo stolu" required>
+      </div>
+      <!-- Kategorie jídel -->
+      <h3>Předkrmy</h3>
+      <div class="form-check">
+        <!-- Volba pro Bruschettu -->
+        <input class="form-check-input" type="checkbox" value="Bruschetta - 100 Kč" id="bruschetta">
+        <label class="form-check-label" for="bruschetta">Bruschetta (100 Kč)</label>
+      </div>
+      <h3>Hlavní jídla</h3>
+      <div class="form-check">
+        <!-- Volba pro Pizzu -->
+        <input class="form-check-input" type="checkbox" value="Pizza Margherita - 180 Kč" id="pizza">
+        <label class="form-check-label" for="pizza">Pizza Margherita (180 Kč)</label>
+      </div>
+      <!-- Tlačítko pro zobrazení rekapitulace -->
+      <button type="button" class="btn btn-primary mt-3" id="previewOrder">Zobrazit rekapitulaci</button>
+    </form>
+    <!-- Rekapitulace objednávky -->
+    <div id="orderSummary" class="mt-5 d-none">
+      <h2>Rekapitulace</h2>
+      <ul id="summaryList"></ul>
+      <p><strong>Celková cena:</strong> <span id="totalPrice"></span> Kč</p>
+      <!-- Tlačítko pro odeslání objednávky -->
+      <button type="button" class="btn btn-success" id="submitOrder">Potvrdit objednávku</button>
+    </div>
+  </div>
+
+  <!-- JavaScript pro ovládání formuláře -->
+  <script>
+    // Zobrazení rekapitulace
+    document.getElementById('previewOrder').addEventListener('click', function() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const summaryList = document.getElementById('summaryList');
+      summaryList.innerHTML = '';
+      let totalPrice = 0;
+
+      // Projít vybrané položky a přidat je do rekapitulace
+      checkboxes.forEach(checkbox => {
+        const [item, price] = checkbox.value.split(' - ');
+        const listItem = document.createElement('li');
+        listItem.textContent = `${item} (${price})`;
+        summaryList.appendChild(listItem);
+        totalPrice += parseInt(price.replace(' Kč', ''));
+      });
+
+      document.getElementById('totalPrice').textContent = totalPrice;
+      document.getElementById('orderSummary').classList.remove('d-none');
+    });
+
+    // Odeslání objednávky
+    document.getElementById('submitOrder').addEventListener('click', async function() {
+      const table = document.getElementById('table').value;
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const items = Array.from(checkboxes).map(checkbox => checkbox.value.split(' - ')[0]);
+
+      // OSDLAT API (backend musí být funkční na dané URL)
+      await fetch('https://your-backend-url.com/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table, items })
+      });
+
+      alert('Objednávka byla odeslána!');
+    });
+  </script>
+</body>
+</html>
