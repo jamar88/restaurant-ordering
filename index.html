@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Objednávkový systém</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Optimalizace šířky pole pro výběr kusů a čísla stolu */
+    .select-qty {
+      width: 100px; /* Pro výběr počtu kusů */
+    }
+    .table-input {
+      width: 150px; /* Pro pole čísla stolu */
+    }
+  </style>
 </head>
 <body>
   <div class="container mt-5">
@@ -13,80 +22,185 @@
       <!-- Číslo stolu -->
       <div class="mb-3">
         <label for="table" class="form-label">Číslo stolu:</label>
-        <input type="number" class="form-control" id="table" placeholder="Zadejte číslo stolu" required>
+        <input type="number" class="form-control form-control-sm table-input" id="table" placeholder="Zadejte číslo stolu" required>
       </div>
 
       <!-- Kategorie jídel -->
       <h3>Předkrmy</h3>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Bruschetta - 100 Kč" id="bruschetta">
-        <label class="form-check-label" for="bruschetta">Bruschetta (100 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Bruschetta - 100 Kč" id="bruschetta">
+        <label class="form-check-label me-3" for="bruschetta">Bruschetta (100 Kč)</label>
+        <select class="form-select select-qty" id="bruschetta_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Caprese - 120 Kč" id="caprese">
-        <label class="form-check-label" for="caprese">Caprese (120 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Caprese - 120 Kč" id="caprese">
+        <label class="form-check-label me-3" for="caprese">Caprese (120 Kč)</label>
+        <select class="form-select select-qty" id="caprese_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
 
       <h3>Polévky</h3>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Rajčatová polévka - 90 Kč" id="tomatoSoup">
-        <label class="form-check-label" for="tomatoSoup">Rajčatová polévka (90 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Rajčatová polévka - 90 Kč" id="tomatoSoup">
+        <label class="form-check-label me-3" for="tomatoSoup">Rajčatová polévka (90 Kč)</label>
+        <select class="form-select select-qty" id="tomatoSoup_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Kuřecí vývar - 80 Kč" id="chickenSoup">
-        <label class="form-check-label" for="chickenSoup">Kuřecí vývar (80 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Kuřecí vývar - 80 Kč" id="chickenSoup">
+        <label class="form-check-label me-3" for="chickenSoup">Kuřecí vývar (80 Kč)</label>
+        <select class="form-select select-qty" id="chickenSoup_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
 
       <h3>Hlavní jídla</h3>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Pizza Margherita - 180 Kč" id="pizza">
-        <label class="form-check-label" for="pizza">Pizza Margherita (180 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Pizza Margherita - 180 Kč" id="pizza">
+        <label class="form-check-label me-3" for="pizza">Pizza Margherita (180 Kč)</label>
+        <select class="form-select select-qty" id="pizza_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Hovězí steak - 350 Kč" id="steak">
-        <label class="form-check-label" for="steak">Hovězí steak (350 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Hovězí steak - 350 Kč" id="steak">
+        <label class="form-check-label me-3" for="steak">Hovězí steak (350 Kč)</label>
+        <select class="form-select select-qty" id="steak_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Těstoviny Carbonara - 220 Kč" id="carbonara">
-        <label class="form-check-label" for="carbonara">Těstoviny Carbonara (220 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Těstoviny Carbonara - 220 Kč" id="carbonara">
+        <label class="form-check-label me-3" for="carbonara">Těstoviny Carbonara (220 Kč)</label>
+        <select class="form-select select-qty" id="carbonara_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Grilované kuře - 250 Kč" id="grilledChicken">
-        <label class="form-check-label" for="grilledChicken">Grilované kuře (250 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Grilované kuře - 250 Kč" id="grilledChicken">
+        <label class="form-check-label me-3" for="grilledChicken">Grilované kuře (250 Kč)</label>
+        <select class="form-select select-qty" id="grilledChicken_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
 
       <h3>Dezerty</h3>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Tiramisu - 120 Kč" id="tiramisu">
-        <label class="form-check-label" for="tiramisu">Tiramisu (120 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Tiramisu - 120 Kč" id="tiramisu">
+        <label class="form-check-label me-3" for="tiramisu">Tiramisu (120 Kč)</label>
+        <select class="form-select select-qty" id="tiramisu_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Panna Cotta - 110 Kč" id="pannaCotta">
-        <label class="form-check-label" for="pannaCotta">Panna Cotta (110 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Panna Cotta - 110 Kč" id="pannaCotta">
+        <label class="form-check-label me-3" for="pannaCotta">Panna Cotta (110 Kč)</label>
+        <select class="form-select select-qty" id="pannaCotta_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
 
       <h3>Teplé nápoje</h3>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Espresso - 50 Kč" id="espresso">
-        <label class="form-check-label" for="espresso">Espresso (50 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Espresso - 50 Kč" id="espresso">
+        <label class="form-check-label me-3" for="espresso">Espresso (50 Kč)</label>
+        <select class="form-select select-qty" id="espresso_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Cappuccino - 70 Kč" id="cappuccino">
-        <label class="form-check-label" for="cappuccino">Cappuccino (70 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Cappuccino - 70 Kč" id="cappuccino">
+        <label class="form-check-label me-3" for="cappuccino">Cappuccino (70 Kč)</label>
+        <select class="form-select select-qty" id="cappuccino_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
 
       <h3>Studené nápoje</h3>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Minerálka - 40 Kč" id="water">
-        <label class="form-check-label" for="water">Minerálka (40 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Minerálka - 40 Kč" id="water">
+        <label class="form-check-label me-3" for="water">Minerálka (40 Kč)</label>
+        <select class="form-select select-qty" id="water_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Coca Cola - 50 Kč" id="cola">
-        <label class="form-check-label" for="cola">Coca Cola (50 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Coca Cola - 50 Kč" id="cola">
+        <label class="form-check-label me-3" for="cola">Coca Cola (50 Kč)</label>
+        <select class="form-select select-qty" id="cola_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="Džus - 60 Kč" id="juice">
-        <label class="form-check-label" for="juice">Džus (60 Kč)</label>
+      <div class="d-flex align-items-center mb-2">
+        <input class="form-check-input me-2" type="checkbox" value="Džus - 60 Kč" id="juice">
+        <label class="form-check-label me-3" for="juice">Džus (60 Kč)</label>
+        <select class="form-select select-qty" id="juice_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
       </div>
 
       <!-- Tlačítko pro zobrazení rekapitulace -->
@@ -98,13 +212,20 @@
       <h2>Rekapitulace</h2>
       <ul id="summaryList"></ul>
       <p><strong>Celková cena:</strong> <span id="totalPrice"></span> Kč</p>
-      <!-- Tlačítko pro odeslání objednávky -->
       <button type="button" class="btn btn-success" id="submitOrder">Potvrdit objednávku</button>
     </div>
   </div>
 
   <!-- JavaScript -->
   <script>
+    // Povolit výběr počtu kusů při zaškrtnutí checkboxu
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const qtyField = document.getElementById(`${checkbox.id}_qty`);
+        qtyField.disabled = !checkbox.checked; // Aktivovat nebo deaktivovat rozbalovací nabídku
+      });
+    });
+
     // Zobrazení rekapitulace
     document.getElementById('previewOrder').addEventListener('click', function() {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -112,13 +233,18 @@
       summaryList.innerHTML = '';
       let totalPrice = 0;
 
-      // Přidat vybrané položky do seznamu a spočítat cenu
+      // Pro každou vybranou položku vypočítat množství a cenu
       checkboxes.forEach(checkbox => {
+        const qtyField = document.getElementById(`${checkbox.id}_qty`);
+        const qty = parseInt(qtyField.value) || 1;
         const [item, price] = checkbox.value.split(' - ');
+        const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
+
         const listItem = document.createElement('li');
-        listItem.textContent = `${item} (${price})`;
+        listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
         summaryList.appendChild(listItem);
-        totalPrice += parseInt(price.replace(' Kč', ''));
+
+        totalPrice += itemPrice;
       });
 
       document.getElementById('totalPrice').textContent = totalPrice;
@@ -129,9 +255,14 @@
     document.getElementById('submitOrder').addEventListener('click', async function() {
       const table = document.getElementById('table').value;
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      const items = Array.from(checkboxes).map(checkbox => checkbox.value.split(' - ')[0]);
+      const items = Array.from(checkboxes).map(checkbox => {
+        const qtyField = document.getElementById(`${checkbox.id}_qty`);
+        const qty = parseInt(qtyField.value) || 1;
+        const [item] = checkbox.value.split(' - ');
+        return { item, qty };
+      });
 
-      // Odeslání dat na backend
+      // Odeslat objednávku na backend
       await fetch('https://your-backend-url.com/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
