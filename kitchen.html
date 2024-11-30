@@ -71,19 +71,41 @@
     }
 
     // Označení objednávky jako dokončené
-    async function markAsCompleted(orderId) {
-      await fetch(`${API_URL}/${orderId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      alert('Objednávka byla označena jako hotová!');
-      fetchOrders(); // Aktualizovat seznam objednávek
-    }
+  async function loadOrders() {
+  const response = await fetch('https://restaurant-ordering-backend.onrender.com/api/orders'); // Načtení objednávek z backendu
+  const orders = await response.json(); // Převedení odpovědi na JSON
 
-    // Načíst objednávky při načtení stránky
-    fetchOrders();
+  const table = document.getElementById('ordersTable'); // Tabulka pro zobrazení objednávek
+  table.innerHTML = ''; // Vyčistí tabulku
+
+  orders.forEach((order) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${order.tableNumber}</td> 
+      <td>${order.items.map(item => `${item.qty}x ${item.name}`).join(', ')}</td>
+      <td>${order.status}</td>
+      <td>
+        <button class="btn btn-success" onclick="completeOrder(${order.id})">Hotovo</button>
+      </td>
+    `;
+    table.appendChild(row);
+  });
+}
+
+async function completeOrder(orderId) {
+  const response = await fetch(`https://restaurant-ordering-backend.onrender.com/api/orders/${orderId}`, { method: 'PATCH' });
+
+  if (response.ok) {
+    alert('Objednávka označena jako hotová');
+    loadOrders(); // Znovu načte objednávky
+  } else {
+    alert('Chyba při aktualizaci objednávky.');
+  }
+}
+
+// Načtení objednávek při načtení stránky
+loadOrders();
+
   </script>
 </body>
 </html>
