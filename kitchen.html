@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuchařské rozhraní</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .table-container {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center">Kuchařské rozhraní</h1>
+    <p class="text-center">Zde vidíte všechny přijaté objednávky. Kliknutím na tlačítko „Hotovo“ označíte objednávku jako dokončenou.</p>
+    
+    <div class="table-container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Číslo stolu</th>
+            <th>Objednávka</th>
+            <th>Stav</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTable">
+          <!-- Objednávky se načítají dynamicky -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://your-backend-url.com/api/orders'; // Změňte na adresu svého backendu
+
+    // Načtení objednávek z backendu
+    async function fetchOrders() {
+      const response = await fetch(API_URL);
+      const orders = await response.json();
+      renderOrders(orders);
+    }
+
+    // Zobrazení objednávek v tabulce
+    function renderOrders(orders) {
+      const table = document.getElementById('ordersTable');
+      table.innerHTML = ''; // Vymazání tabulky
+
+      orders.forEach(order => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${order.tableNumber}</td>
+          <td>${JSON.parse(order.items).map(item => `${item.qty}x ${item.name}`).join(', ')}</td>
+          <td>
+            ${order.status === 'pending' ? `
+              <button class="btn btn-success btn-sm" onclick="markAsCompleted(${order.id})">Hotovo</button>
+            ` : `
+              <span class="badge bg-success">Dokončeno</span>
+            `}
+          </td>
+        `;
+        table.appendChild(row);
+      });
+    }
+
+    // Označení objednávky jako dokončené
+    async function markAsCompleted(orderId) {
+      await fetch(`${API_URL}/${orderId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      alert('Objednávka byla označena jako hotová!');
+      fetchOrders(); // Aktualizovat seznam objednávek
+    }
+
+    // Načíst objednávky při načtení stránky
+    fetchOrders();
+  </script>
+</body>
+</html>
