@@ -22,12 +22,29 @@ app.get('/api/orders', (req, res) => {
 });
 
 // Aktualizace objednávky
-app.patch('/api/orders/:id', (req, res) => {
+const axios = require('axios');
+
+app.patch('/api/orders/:id', async (req, res) => {
   const { id } = req.params;
   const order = orders.find(o => o.id === parseInt(id));
   if (!order) return res.status(404).send('Order not found');
+
   order.status = 'completed';
-  res.send('Order status updated');
+
+  // Aktualizace Arduino Cloudu
+  try {
+    await axios.put('https://api2.arduino.cc/iot/v2/things/<thingId>/properties/<propertyId>', {
+      value: `Objednávka ${order.id} hotová`,
+    }, {
+      headers: {
+        Authorization: `Bearer <your-access-token>`,
+      },
+    });
+
+    res.send('Order status updated and Arduino Cloud notified');
+  } catch (error) {
+    res.status(500).send('Chyba při aktualizaci Arduino Cloudu');
+  }
 });
 
 // Spuštění serveru
