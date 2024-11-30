@@ -1,40 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Nastavení znakové sady a základních vlastností -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Objednávkový systém</title>
-  <!-- Odkaz na Bootstrap CSS pro stylování -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <div class="container mt-5">
-    <!-- Hlavička stránky -->
     <h1 class="text-center">Objednávkový systém</h1>
-    <!-- Formulář pro zadání čísla stolu a výběr jídla -->
     <form id="orderForm" class="mt-4">
+      <!-- Číslo stolu -->
       <div class="mb-3">
-        <!-- Pole pro číslo stolu -->
         <label for="table" class="form-label">Číslo stolu:</label>
         <input type="number" class="form-control" id="table" placeholder="Zadejte číslo stolu" required>
       </div>
+
       <!-- Kategorie jídel -->
       <h3>Předkrmy</h3>
       <div class="form-check">
-        <!-- Volba pro Bruschettu -->
         <input class="form-check-input" type="checkbox" value="Bruschetta - 100 Kč" id="bruschetta">
         <label class="form-check-label" for="bruschetta">Bruschetta (100 Kč)</label>
       </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Caprese - 120 Kč" id="caprese">
+        <label class="form-check-label" for="caprese">Caprese (120 Kč)</label>
+      </div>
+
+      <h3>Polévky</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Rajčatová polévka - 90 Kč" id="tomatoSoup">
+        <label class="form-check-label" for="tomatoSoup">Rajčatová polévka (90 Kč)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Kuřecí vývar - 80 Kč" id="chickenSoup">
+        <label class="form-check-label" for="chickenSoup">Kuřecí vývar (80 Kč)</label>
+      </div>
+
       <h3>Hlavní jídla</h3>
       <div class="form-check">
-        <!-- Volba pro Pizzu -->
         <input class="form-check-input" type="checkbox" value="Pizza Margherita - 180 Kč" id="pizza">
         <label class="form-check-label" for="pizza">Pizza Margherita (180 Kč)</label>
       </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Hovězí steak - 350 Kč" id="steak">
+        <label class="form-check-label" for="steak">Hovězí steak (350 Kč)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Těstoviny Carbonara - 220 Kč" id="carbonara">
+        <label class="form-check-label" for="carbonara">Těstoviny Carbonara (220 Kč)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Grilované kuře - 250 Kč" id="grilledChicken">
+        <label class="form-check-label" for="grilledChicken">Grilované kuře (250 Kč)</label>
+      </div>
+
+      <h3>Dezerty</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Tiramisu - 120 Kč" id="tiramisu">
+        <label class="form-check-label" for="tiramisu">Tiramisu (120 Kč)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Panna Cotta - 110 Kč" id="pannaCotta">
+        <label class="form-check-label" for="pannaCotta">Panna Cotta (110 Kč)</label>
+      </div>
+
+      <h3>Teplé nápoje</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Espresso - 50 Kč" id="espresso">
+        <label class="form-check-label" for="espresso">Espresso (50 Kč)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Cappuccino - 70 Kč" id="cappuccino">
+        <label class="form-check-label" for="cappuccino">Cappuccino (70 Kč)</label>
+      </div>
+
+      <h3>Studené nápoje</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Minerálka - 40 Kč" id="water">
+        <label class="form-check-label" for="water">Minerálka (40 Kč)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Coca Cola - 50 Kč" id="cola">
+        <label class="form-check-label" for="cola">Coca Cola (50 Kč)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Džus - 60 Kč" id="juice">
+        <label class="form-check-label" for="juice">Džus (60 Kč)</label>
+      </div>
+
       <!-- Tlačítko pro zobrazení rekapitulace -->
       <button type="button" class="btn btn-primary mt-3" id="previewOrder">Zobrazit rekapitulaci</button>
     </form>
+
     <!-- Rekapitulace objednávky -->
     <div id="orderSummary" class="mt-5 d-none">
       <h2>Rekapitulace</h2>
@@ -45,7 +103,7 @@
     </div>
   </div>
 
-  <!-- JavaScript pro ovládání formuláře -->
+  <!-- JavaScript -->
   <script>
     // Zobrazení rekapitulace
     document.getElementById('previewOrder').addEventListener('click', function() {
@@ -54,7 +112,7 @@
       summaryList.innerHTML = '';
       let totalPrice = 0;
 
-      // Projít vybrané položky a přidat je do rekapitulace
+      // Přidat vybrané položky do seznamu a spočítat cenu
       checkboxes.forEach(checkbox => {
         const [item, price] = checkbox.value.split(' - ');
         const listItem = document.createElement('li');
@@ -73,7 +131,7 @@
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
       const items = Array.from(checkboxes).map(checkbox => checkbox.value.split(' - ')[0]);
 
-      // OSDLAT API (backend musí být funkční na dané URL)
+      // Odeslání dat na backend
       await fetch('https://your-backend-url.com/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
