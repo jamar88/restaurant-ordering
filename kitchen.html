@@ -29,6 +29,7 @@
             <th>Číslo stolu</th>
             <th>Objednávka</th>
             <th>Stav</th>
+            <th>Akce</th>
           </tr>
         </thead>
         <tbody id="ordersTable">
@@ -57,9 +58,15 @@
             <td>${order.tableNumber}</td> 
             <td>${order.items.map(item => `${item.qty}x ${item.name}`).join(', ')}</td>
             <td>
-              ${order.status === 'pending'
-                ? `<button class="btn btn-success" onclick="completeOrder(${order.id})">Hotovo</button>`
-                : '<span class="badge bg-success">Dokončeno</span>'
+              <span class="badge ${order.status === 'pending' ? 'bg-warning' : 'bg-success'}">
+                ${order.status === 'pending' ? 'Přijato' : 'K výdeji'}
+              </span>
+            </td>
+            <td>
+              ${
+                order.status === 'pending'
+                  ? `<button class="btn btn-success btn-sm" onclick="completeOrder(${order.id})">Hotovo</button>`
+                  : '<span class="text-muted">Dokončeno</span>'
               }
             </td>
           `;
@@ -73,6 +80,7 @@
 
     // Označení objednávky jako dokončené
     async function completeOrder(orderId) {
+      console.log(`Odesílám PATCH požadavek na objednávku ID: ${orderId}`);
       try {
         const response = await fetch(`${API_URL}/${orderId}`, {
           method: 'PATCH',
@@ -82,7 +90,7 @@
 
         if (response.ok) {
           alert('Objednávka označena jako hotová');
-          loadOrders(); // Znovu načte objednávky
+          loadOrders(); // Znovu načte objednávky a aktualizuje DOM
         } else {
           const error = await response.text();
           console.error('Chyba při aktualizaci objednávky:', error);
