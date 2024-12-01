@@ -19,11 +19,13 @@ app.post('/api/orders', (req, res) => {
   const { tableNumber, items } = req.body;
   const order = { id: currentId++, tableNumber, items, status: 'pending' };
   orders.push(order);
+  console.log(`Přidána nová objednávka: ${JSON.stringify(order)}`);
   res.status(201).json(order);
 });
 
 // Načtení všech objednávek
 app.get('/api/orders', (req, res) => {
+  console.log('Načítám všechny objednávky');
   res.json(orders);
 });
 
@@ -41,6 +43,7 @@ app.patch('/api/orders/:id', async (req, res) => {
   }
 
   order.status = status;
+  console.log(`Objednávka ID ${id} aktualizována na stav: ${status}`);
 
   // Arduino Cloud API - aktualizace proměnné
   const ARDUINO_API_KEY = process.env.ARDUINO_API_KEY; // API token uložený jako proměnná prostředí
@@ -48,10 +51,10 @@ app.patch('/api/orders/:id', async (req, res) => {
   const PROPERTY_ID = '59f3cbcd-7b39-43c6-8c2a-ce5a92893fc9'; // ID proměnné orderStatus
 
   try {
-    const response = await axios.put(
+    const arduinoResponse = await axios.put(
       `https://api2.arduino.cc/iot/v2/things/${THING_ID}/properties/${PROPERTY_ID}`,
       {
-        value: `Objednávka ${order.id} hotová`,
+        value: `Objednávka ${order.id}: ${status === 'completed' ? 'K výdeji' : status}`,
       },
       {
         headers: {
@@ -60,7 +63,7 @@ app.patch('/api/orders/:id', async (req, res) => {
       }
     );
 
-    console.log('Arduino Cloud Response:', response.data);
+    console.log('Arduino Cloud Response:', arduinoResponse.data);
     res.send('Order updated and Arduino Cloud notified');
   } catch (error) {
     console.error('Error updating Arduino Cloud:', error.message);
