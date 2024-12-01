@@ -39,7 +39,7 @@ app.patch('/api/orders/:id', async (req, res) => {
   const order = orders.find(o => o.id === parseInt(id));
   if (!order) {
     console.error(`Objednávka s ID ${id} nenalezena.`);
-    return res.status(404).send('Order not found');
+    return res.status(404).json({ error: 'Order not found' });
   }
 
   order.status = status;
@@ -64,10 +64,19 @@ app.patch('/api/orders/:id', async (req, res) => {
     );
 
     console.log('Arduino Cloud Response:', arduinoResponse.data);
-    res.send('Order updated and Arduino Cloud notified');
+
+    // Vrácení aktuálního stavu objednávky klientovi
+    res.json({
+      message: 'Order updated successfully',
+      order: {
+        id: order.id,
+        tableNumber: order.tableNumber,
+        status: order.status,
+      }
+    });
   } catch (error) {
     console.error('Error updating Arduino Cloud:', error.message);
-    res.status(500).send('Chyba při aktualizaci Arduino Cloudu');
+    res.status(500).json({ error: 'Chyba při aktualizaci Arduino Cloudu' });
   }
 });
 
