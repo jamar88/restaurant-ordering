@@ -89,11 +89,17 @@
         });
 
         if (response.ok) {
-          alert('Objednávka označena jako hotová');
-          loadOrders(); // Znovu načte objednávky a aktualizuje DOM
+          const data = await response.text();
+          console.log('Objednávka byla aktualizována:', data);
+
+          // Ruční aktualizace DOM bez nutnosti načítat všechna data
+          const row = document.querySelector(`#ordersTable tr button[onclick="completeOrder(${orderId})"]`).closest('tr');
+          row.querySelector('td:nth-child(3) .badge').textContent = 'K výdeji';
+          row.querySelector('td:nth-child(3) .badge').classList.replace('bg-warning', 'bg-success');
+          row.querySelector('td:nth-child(4)').innerHTML = '<span class="text-muted">Dokončeno</span>';
         } else {
           const error = await response.text();
-          console.error('Chyba při aktualizaci objednávky:', error);
+          console.error('Chyba při aktualizaci objednávky (status != 200):', error);
           alert('Chyba při aktualizaci objednávky.');
         }
       } catch (err) {
