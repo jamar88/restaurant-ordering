@@ -253,18 +253,16 @@
 
     // Odeslání objednávky
 document.getElementById('submitOrder').addEventListener('click', async function () {
-  const table = document.getElementById('table').value; // Získání čísla stolu
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked'); // Získání zaškrtnutých položek
+  const table = document.getElementById('table').value;
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 
-  // Sestavení objednávky
   const items = Array.from(checkboxes).map((checkbox) => {
     const qtyField = document.getElementById(`${checkbox.id}_qty`);
-    const qty = parseInt(qtyField.value) || 1; // Počet kusů
-    const [name] = checkbox.value.split(' - '); // Název položky
+    const qty = parseInt(qtyField.value) || 1;
+    const [name] = checkbox.value.split(' - ');
     return { name, qty };
   });
 
-  // Odeslání objednávky na backend
   try {
     const response = await fetch('https://restaurant-ordering-backend.onrender.com/api/orders', {
       method: 'POST',
@@ -273,18 +271,19 @@ document.getElementById('submitOrder').addEventListener('click', async function 
     });
 
     if (response.ok) {
+      const data = await response.json();
+      console.log('Objednávka byla odeslána:', data);
       alert('Objednávka byla úspěšně odeslána!');
     } else {
       const error = await response.text();
       console.error('Chyba při odesílání objednávky:', error);
-      alert('Chyba při odesílání objednávky. Zkontrolujte připojení k serveru.');
+      alert('Chyba při odesílání objednávky.');
     }
   } catch (err) {
-    console.error('Chyba při odesílání objednávky:', err);
+    console.error('Chyba při komunikaci se serverem:', err);
     alert('Chyba při komunikaci se serverem.');
   }
 });
-
 
   </script>
 </body>
