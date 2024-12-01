@@ -5,6 +5,9 @@ const axios = require('axios'); // Pro komunikaci s Arduino Cloud
 const app = express();
 app.use(bodyParser.json());
 
+const cors = require('cors');
+app.use(cors());
+
 // Paměťová databáze
 const orders = [];
 let currentId = 1;
