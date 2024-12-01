@@ -6,7 +6,11 @@ const app = express();
 app.use(bodyParser.json());
 
 const cors = require('cors');
-app.use(cors());
+//app.use(cors());
+app.use(cors({
+  origin: 'https://jamar88.github.io'
+}));
+
 
 // Paměťová databáze
 const orders = [];
