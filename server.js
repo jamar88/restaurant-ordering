@@ -47,7 +47,7 @@ app.patch('/api/orders/:id', async (req, res) => {
 
   // Arduino Cloud API - aktualizace proměnné
   const ARDUINO_API_KEY = process.env.ARDUINO_API_KEY; // API token uložený jako proměnná prostředí
-  const THING_ID = '1abb72c9-2a20-4a7c-ba7d-c9a6353ff304'; // Vložte ID Thing z Arduino Cloud
+  const THING_ID = 'aeaf1532-0f5d-4a4e-9ae8-a6fcbbd24834'; // Vložte ID Thing z Arduino Cloud
   const PROPERTY_ID = '395adbdb-b8b9-44cb-a08a-aa9a069e87f3'; // ID proměnné orderStatus
 
   try {
