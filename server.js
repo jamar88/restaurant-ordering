@@ -6,11 +6,9 @@ const app = express();
 app.use(bodyParser.json());
 
 const cors = require('cors');
-//app.use(cors());
 app.use(cors({
-  origin: 'https://jamar88.github.io'
+  origin: 'https://jamar88.github.io' // Povolit přístup pouze z GitHub Pages
 }));
-
 
 // Paměťová databáze
 const orders = [];
@@ -32,10 +30,17 @@ app.get('/api/orders', (req, res) => {
 // Aktualizace objednávky
 app.patch('/api/orders/:id', async (req, res) => {
   const { id } = req.params;
-  const order = orders.find(o => o.id === parseInt(id));
-  if (!order) return res.status(404).send('Order not found');
+  const { status } = req.body;
 
-  order.status = 'completed';
+  console.log(`Přijat PATCH požadavek: objednávka ID ${id}, nový stav: ${status}`);
+
+  const order = orders.find(o => o.id === parseInt(id));
+  if (!order) {
+    console.error(`Objednávka s ID ${id} nenalezena.`);
+    return res.status(404).send('Order not found');
+  }
+
+  order.status = status;
 
   // Arduino Cloud API - aktualizace proměnné
   const ARDUINO_API_KEY = process.env.ARDUINO_API_KEY; // API token uložený jako proměnná prostředí
@@ -56,7 +61,7 @@ app.patch('/api/orders/:id', async (req, res) => {
     );
 
     console.log('Arduino Cloud Response:', response.data);
-    res.send('Order status updated and Arduino Cloud notified');
+    res.send('Order updated and Arduino Cloud notified');
   } catch (error) {
     console.error('Error updating Arduino Cloud:', error.message);
     res.status(500).send('Chyba při aktualizaci Arduino Cloudu');
