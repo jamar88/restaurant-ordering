@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const axios = require('axios'); // Pro komunikaci s Arduino Cloud
 
 const app = express();
 app.use(bodyParser.json());
@@ -22,8 +23,6 @@ app.get('/api/orders', (req, res) => {
 });
 
 // Aktualizace objednávky
-const axios = require('axios');
-
 app.patch('/api/orders/:id', async (req, res) => {
   const { id } = req.params;
   const order = orders.find(o => o.id === parseInt(id));
@@ -31,18 +30,28 @@ app.patch('/api/orders/:id', async (req, res) => {
 
   order.status = 'completed';
 
-  // Aktualizace Arduino Cloudu
-  try {
-    await axios.put('https://api2.arduino.cc/iot/v2/things/<thingId>/properties/<propertyId>', {
-      value: `Objednávka ${order.id} hotová`,
-    }, {
-      headers: {
-        Authorization: `Bearer <your-access-token>`,
-      },
-    });
+  // Arduino Cloud API - aktualizace proměnné
+  const ARDUINO_API_KEY = process.env.ARDUINO_API_KEY; // API token uložený jako proměnná prostředí
+  const THING_ID = '<your-thing-id>'; // Vložte ID Thing z Arduino Cloud
+  const PROPERTY_ID = '59f3cbcd-7b39-43c6-8c2a-ce5a92893fc9'; // ID proměnné orderStatus
 
+  try {
+    const response = await axios.put(
+      `https://api2.arduino.cc/iot/v2/things/${THING_ID}/properties/${PROPERTY_ID}`,
+      {
+        value: `Objednávka ${order.id} hotová`,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${ARDUINO_API_KEY}`,
+        },
+      }
+    );
+
+    console.log('Arduino Cloud Response:', response.data);
     res.send('Order status updated and Arduino Cloud notified');
   } catch (error) {
+    console.error('Error updating Arduino Cloud:', error.message);
     res.status(500).send('Chyba při aktualizaci Arduino Cloudu');
   }
 });
