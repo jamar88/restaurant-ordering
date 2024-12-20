@@ -2,64 +2,31 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kuchařské rozhraní</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+  <title>Objednávky zákazníků</title>
+  <style>
+    .pending { background-color: orange; }
+    .ready { background-color: green; color: white; }
+  </style>
 </head>
 <body>
-  <div class="container mt-5">
-    <h1 class="text-center">Kuchařské rozhraní</h1>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Číslo stolu</th>
-          <th>Objednávka</th>
-          <th>Stav</th>
-          <th>Akce</th>
-        </tr>
-      </thead>
-      <tbody id="ordersTable"></tbody>
-    </table>
-  </div>
+  <div id="orderList"></div>
 
   <script>
-    async function loadOrders() {
+    async function fetchOrders() {
       const response = await fetch('https://restaurant-ordering-backend.onrender.com/api/orders');
       const orders = await response.json();
-      const table = document.getElementById('ordersTable');
-      table.innerHTML = '';
+      const orderList = document.getElementById('orderList');
 
+      orderList.innerHTML = '';
       orders.forEach(order => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${order.tableNumber}</td>
-          <td>${order.items.map(item => `${item.qty}x ${item.name}`).join(', ')}</td>
-          <td>${order.status}</td>
-          <td>
-            <button class="btn btn-success" onclick="completeOrder(${order.id}, ${order.tableNumber})">Hotovo</button>
-          </td>
-        `;
-        table.appendChild(row);
+        const div = document.createElement('div');
+        div.className = order.status === 'pending' ? 'pending' : 'ready';
+        div.textContent = `Stůl ${order.tableNumber}: ${order.items.map(item => `${item.qty}x ${item.name}`).join(', ')} - ${order.status === 'pending' ? 'Objednávka se připravuje' : 'Objednávka k vyzvednutí'}`;
+        orderList.appendChild(div);
       });
     }
 
-    async function completeOrder(orderId, tableNumber) {
-      const response = await fetch(`https://restaurant-ordering-backend.onrender.com/api/orders/${orderId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'ready' }),
-      });
-
-      if (response.ok) {
-        await fetch(`http://esp32.local/notify?table=${tableNumber}`);
-        alert(`Objednávka pro stůl ${tableNumber} označena jako hotová.`);
-        loadOrders();
-      } else {
-        alert('Chyba při aktualizaci objednávky.');
-      }
-    }
-
-    loadOrders();
+    setInterval(fetchOrders, 5000); // Obnovit každých 5 sekund
   </script>
 </body>
 </html>
