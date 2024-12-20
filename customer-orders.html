@@ -18,10 +18,16 @@
     .status-preparing {
       background-color: #ffcc00; /* Oranžová */
       color: black;
+      font-weight: bold;
+      padding: 5px;
+      border-radius: 5px;
     }
     .status-ready {
       background-color: #28a745; /* Zelená */
       color: white;
+      font-weight: bold;
+      padding: 5px;
+      border-radius: 5px;
     }
   </style>
 </head>
@@ -59,10 +65,12 @@
           row.innerHTML = `
             <td>${order.tableNumber}</td>
             <td>${order.items.map(item => `${item.qty}x ${item.name}`).join(', ')}</td>
-            <td class="${
-              order.status === 'completed' ? 'status-ready' : 'status-preparing'
-            }">
-              ${order.status === 'completed' ? 'K vyzvednutí' : 'Připravuje se'}
+            <td>
+              <span class="${
+                order.status === 'completed' ? 'status-ready' : 'status-preparing'
+              }">
+                ${order.status === 'completed' ? 'K vyzvednutí' : 'Připravuje se'}
+              </span>
             </td>
           `;
           table.appendChild(row);
