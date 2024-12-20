@@ -49,59 +49,11 @@
         </select>
       </div>
 
-      <h3>Polévky</h3>
-      <div class="d-flex align-items-center mb-2">
-        <input class="form-check-input me-2" type="checkbox" value="Rajčatová polévka - 90 Kč" id="tomatoSoup">
-        <label class="form-check-label me-3" for="tomatoSoup">Rajčatová polévka (90 Kč)</label>
-        <select class="form-select select-qty" id="tomatoSoup_qty" disabled>
-          <option value="1">1 ks</option>
-          <option value="2">2 ks</option>
-          <option value="3">3 ks</option>
-          <option value="4">4 ks</option>
-          <option value="5">5 ks</option>
-        </select>
-      </div>
-      <div class="d-flex align-items-center mb-2">
-        <input class="form-check-input me-2" type="checkbox" value="Kuřecí vývar - 80 Kč" id="chickenSoup">
-        <label class="form-check-label me-3" for="chickenSoup">Kuřecí vývar (80 Kč)</label>
-        <select class="form-select select-qty" id="chickenSoup_qty" disabled>
-          <option value="1">1 ks</option>
-          <option value="2">2 ks</option>
-          <option value="3">3 ks</option>
-          <option value="4">4 ks</option>
-          <option value="5">5 ks</option>
-        </select>
-      </div>
-
       <h3>Hlavní jídla</h3>
       <div class="d-flex align-items-center mb-2">
         <input class="form-check-input me-2" type="checkbox" value="Pizza Margherita - 180 Kč" id="pizza">
         <label class="form-check-label me-3" for="pizza">Pizza Margherita (180 Kč)</label>
         <select class="form-select select-qty" id="pizza_qty" disabled>
-          <option value="1">1 ks</option>
-          <option value="2">2 ks</option>
-          <option value="3">3 ks</option>
-          <option value="4">4 ks</option>
-          <option value="5">5 ks</option>
-        </select>
-      </div>
-      <div class="d-flex align-items-center mb-2">
-        <input class="form-check-input me-2" type="checkbox" value="Hovězí steak - 350 Kč" id="steak">
-        <label class="form-check-label me-3" for="steak">Hovězí steak (350 Kč)</label>
-        <select class="form-select select-qty" id="steak_qty" disabled>
-          <option value="1">1 ks</option>
-          <option value="2">2 ks</option>
-          <option value="3">3 ks</option>
-          <option value="4">4 ks</option>
-          <option value="5">5 ks</option>
-        </select>
-      </div>
-
-      <h3>Dezerty</h3>
-      <div class="d-flex align-items-center mb-2">
-        <input class="form-check-input me-2" type="checkbox" value="Tiramisu - 120 Kč" id="tiramisu">
-        <label class="form-check-label me-3" for="tiramisu">Tiramisu (120 Kč)</label>
-        <select class="form-select select-qty" id="tiramisu_qty" disabled>
           <option value="1">1 ks</option>
           <option value="2">2 ks</option>
           <option value="3">3 ks</option>
@@ -125,22 +77,19 @@
 
   <!-- JavaScript -->
   <script>
-    // Povolit výběr počtu kusů při zaškrtnutí checkboxu
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-      checkbox.addEventListener('change', function() {
+      checkbox.addEventListener('change', function () {
         const qtyField = document.getElementById(`${checkbox.id}_qty`);
-        qtyField.disabled = !checkbox.checked; // Aktivovat nebo deaktivovat rozbalovací nabídku
+        qtyField.disabled = !checkbox.checked;
       });
     });
 
-    // Zobrazení rekapitulace
-    document.getElementById('previewOrder').addEventListener('click', function() {
+    document.getElementById('previewOrder').addEventListener('click', function () {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
       const summaryList = document.getElementById('summaryList');
       summaryList.innerHTML = '';
       let totalPrice = 0;
 
-      // Pro každou vybranou položku vypočítat množství a cenu
       checkboxes.forEach(checkbox => {
         const qtyField = document.getElementById(`${checkbox.id}_qty`);
         const qty = parseInt(qtyField.value) || 1;
@@ -158,9 +107,13 @@
       document.getElementById('orderSummary').classList.remove('d-none');
     });
 
-    // Odeslání objednávky
     document.getElementById('submitOrder').addEventListener('click', async function () {
       const table = document.getElementById('table').value;
+      if (!table) {
+        alert('Zadejte číslo stolu!');
+        return;
+      }
+
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
       const items = Array.from(checkboxes).map((checkbox) => {
         const qtyField = document.getElementById(`${checkbox.id}_qty`);
@@ -177,7 +130,7 @@
         });
 
         if (response.ok) {
-          alert('Objednávka byla úspěšně odeslána!');
+          window.location.href = 'customer-orders.html';
         } else {
           const error = await response.text();
           console.error('Chyba při odesílání objednávky:', error);
