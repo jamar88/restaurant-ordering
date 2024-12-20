@@ -49,19 +49,10 @@
     .floating-button:hover {
       background-color: #0056b3;
     }
-    /* Mobilní zařízení: změna textu */
+    /* Mobilní zařízení: změna formátování objednávek */
     @media (max-width: 768px) {
-      .status-preparing::before {
-        content: "V přípravě";
-      }
-      .status-preparing {
-        background-color: #ffcc00; /* Oranžová */
-      }
-    }
-    /* Desktopové zařízení */
-    @media (min-width: 769px) {
-      .status-preparing::before {
-        content: "Připravuje se";
+      .order-items {
+        white-space: pre-line; /* Zachování formátování s přechody na nové řádky */
       }
     }
   </style>
@@ -101,9 +92,13 @@
 
         orders.forEach(order => {
           const row = document.createElement('tr');
+
+          // Vytvoření seznamu objednávek s novými řádky na mobilních zařízeních
+          const formattedItems = order.items.map(item => `${item.qty}x ${item.name}`).join('\n');
+
           row.innerHTML = `
             <td>${order.tableNumber}</td>
-            <td>${order.items.map(item => `${item.qty}x ${item.name}`).join(', ')}</td>
+            <td class="order-items">${formattedItems}</td>
             <td>
               <span class="${
                 order.status === 'completed' ? 'status-completed' : 'status-preparing'
