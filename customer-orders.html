@@ -53,6 +53,15 @@
     .floating-button:hover {
       background-color: #0056b3;
     }
+    /* Mobilní zařízení: změna textu */
+    @media (max-width: 768px) {
+      .status-preparing::after {
+        content: "V přípravě";
+      }
+      .status-preparing::before {
+        content: none;
+      }
+    }
   </style>
 </head>
 <body>
