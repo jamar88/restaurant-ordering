@@ -14,6 +14,7 @@
     }
     .table-container {
       margin-top: 30px;
+      overflow-x: auto; /* Umožňuje horizontální posouvání na velmi malých obrazovkách */
     }
     .status-preparing {
       background-color: #ffcc00; /* Oranžová */
@@ -49,10 +50,16 @@
     .floating-button:hover {
       background-color: #0056b3;
     }
-    /* Mobilní zařízení: změna formátování objednávek */
+    /* Mobilní zařízení: upravení velikosti písma a zarovnání */
     @media (max-width: 768px) {
+      .table th, .table td {
+        font-size: 12px; /* Zmenšení velikosti textu na mobilních zařízeních */
+      }
       .order-items {
-        white-space: pre-line; /* Zachování formátování s přechody na nové řádky */
+        white-space: pre-line; /* Každá objednávka na novém řádku */
+      }
+      .table thead th {
+        white-space: nowrap; /* Zachování názvů sloupců na jednom řádku */
       }
     }
   </style>
@@ -102,7 +109,7 @@
             <td>
               <span class="${
                 order.status === 'completed' ? 'status-completed' : 'status-preparing'
-              }"></span>
+              }">${order.status === 'completed' ? 'K vyzvednutí' : 'V přípravě'}</span>
             </td>
           `;
           table.appendChild(row);
