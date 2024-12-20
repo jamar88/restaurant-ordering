@@ -76,7 +76,7 @@
             <td>
               ${
                 order.status === 'pending'
-                  ? `<button class="btn btn-success btn-sm" onclick="markAsCompleted(${order.id})">Hotovo</button>`
+                  ? `<button class="btn btn-success btn-sm" onclick="confirmCompletion(${order.id})">Hotovo</button>`
                   : ''
               }
             </td>
@@ -85,6 +85,14 @@
         });
       } catch (error) {
         console.error('Chyba při načítání objednávek:', error);
+      }
+    }
+
+    function confirmCompletion(orderId) {
+      // Zobrazit potvrzovací dialog
+      const isConfirmed = confirm('Je objednávka opravdu připravena k výdeji?');
+      if (isConfirmed) {
+        markAsCompleted(orderId);
       }
     }
 
@@ -97,16 +105,13 @@
         });
 
         if (response.ok) {
-          alert('Objednávka označena jako hotová');
           loadOrders();
         } else {
           const error = await response.text();
           console.error('Chyba při aktualizaci objednávky:', error);
-          alert('Chyba při aktualizaci objednávky.');
         }
       } catch (err) {
         console.error('Chyba při aktualizaci objednávky:', err);
-        alert('Chyba při aktualizaci objednávky.');
       }
     }
 
