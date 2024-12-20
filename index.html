@@ -228,7 +228,7 @@
       </div>
     </form>
 
-    <!-- Rekapitulace -->
+ <!-- Rekapitulace -->
     <div id="orderSummary" class="mt-4 d-none">
       <h4>Rekapitulace:</h4>
       <ul id="summaryList"></ul>
@@ -236,6 +236,9 @@
       <button type="button" class="btn btn-success" id="submitOrder">Potvrdit</button>
     </div>
   </div>
+
+  <!-- Plovoucí tlačítko -->
+  <a href="customer-orders.html" class="floating-button">Objednávky</a>
 
   <script>
     // Povolit výběr množství
@@ -265,6 +268,37 @@
       summaryList.innerHTML = items.map((item) => `<li>${item}</li>`).join('');
       totalPrice.innerText = total;
       orderSummary.classList.remove('d-none');
+    });
+
+    // Odeslání objednávky
+    document.getElementById('submitOrder').addEventListener('click', async () => {
+      const table = document.getElementById('table').value;
+      const items = [];
+      document.querySelectorAll('input[type="checkbox"]:checked').forEach((checkbox) => {
+        const qty = parseInt(document.getElementById(`${checkbox.id}_qty`).value, 10);
+        const [name] = checkbox.value.split(' - ');
+        items.push({ name, qty });
+      });
+
+      try {
+        const response = await fetch('https://restaurant-ordering-backend.onrender.com/api/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ tableNumber: table, items }),
+        });
+
+        if (response.ok) {
+          alert('Objednávka byla úspěšně odeslána!');
+          window.location.href = 'customer-orders.html';
+        } else {
+          alert('Chyba při odesílání objednávky.');
+        }
+      } catch (err) {
+        console.error('Chyba při odesílání objednávky:', err);
+        alert('Chyba při komunikaci se serverem.');
+      }
     });
   </script>
 </body>
