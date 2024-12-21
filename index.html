@@ -254,28 +254,35 @@
     });
 
     // Zobrazení rekapitulace
-    document.getElementById('previewOrder').addEventListener('click', function() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      const summaryList = document.getElementById('summaryList');
-      summaryList.innerHTML = '';
-      let totalPrice = 0;
+document.getElementById('previewOrder').addEventListener('click', function() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 
-      checkboxes.forEach(checkbox => {
-        const qtyField = document.getElementById(`${checkbox.id}_qty`);
-        const qty = parseInt(qtyField.value) || 1;
-        const [item, price] = checkbox.value.split(' - ');
-        const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
+  if (checkboxes.length === 0) {
+    alert('Musíte vybrat alespoň jedno jídlo nebo pití k objednávce.');
+    return;
+  }
 
-        const listItem = document.createElement('li');
-        listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
-        summaryList.appendChild(listItem);
+  const summaryList = document.getElementById('summaryList');
+  summaryList.innerHTML = '';
+  let totalPrice = 0;
 
-        totalPrice += itemPrice;
-      });
+  checkboxes.forEach(checkbox => {
+    const qtyField = document.getElementById(`${checkbox.id}_qty`);
+    const qty = parseInt(qtyField.value) || 1;
+    const [item, price] = checkbox.value.split(' - ');
+    const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
 
-      document.getElementById('totalPrice').textContent = totalPrice;
-      document.getElementById('orderSummary').classList.remove('d-none');
-    });
+    const listItem = document.createElement('li');
+    listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
+    summaryList.appendChild(listItem);
+
+    totalPrice += itemPrice;
+  });
+
+  document.getElementById('totalPrice').textContent = totalPrice;
+  document.getElementById('orderSummary').classList.remove('d-none');
+});
+
 
     // Odeslání objednávky
     document.getElementById('submitOrder').addEventListener('click', async function () {
