@@ -27,6 +27,7 @@
       <!-- Číslo stolu -->
       <div class="mb-3">
         <label for="table" class="form-label">Číslo stolu:</label>
+<<<<<<< HEAD
         <input 
           type="number" 
           class="form-control form-control-sm table-input" 
@@ -35,6 +36,9 @@
           required 
           min="1" 
           max="10">
+=======
+        <input type="number" class="form-control form-control-sm table-input" id="table" placeholder="Zadejte číslo stolu" required>
+>>>>>>> parent of c1aaff0 (Update index.html)
       </div>
 
       <!-- Nabídka jídel -->
@@ -211,6 +215,7 @@
 
     // Zobrazení rekapitulace
     document.getElementById('previewOrder').addEventListener('click', function() {
+<<<<<<< HEAD
       const table = document.getElementById('table');
       const tableNumber = parseInt(table.value);
 
@@ -239,11 +244,33 @@
         listItem.textContent = `${qty}x ${item} - ${itemPrice} Kč`;
         summaryList.appendChild(listItem);
 
+=======
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const summaryList = document.getElementById('summaryList');
+      summaryList.innerHTML = '';
+      let totalPrice = 0;
+
+      checkboxes.forEach(checkbox => {
+        const qtyField = document.getElementById(`${checkbox.id}_qty`);
+        const qty = parseInt(qtyField.value) || 1;
+        const [item, price] = checkbox.value.split(' - ');
+        const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
+
+        const listItem = document.createElement('li');
+        listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
+        summaryList.appendChild(listItem);
+
+>>>>>>> parent of c1aaff0 (Update index.html)
         totalPrice += itemPrice;
       });
 
       document.getElementById('totalPrice').textContent = totalPrice;
       document.getElementById('orderSummary').classList.remove('d-none');
+<<<<<<< HEAD
+=======
+      
+      // Scroll na sekci rekapitulace
+>>>>>>> parent of c1aaff0 (Update index.html)
       document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
     });
 
