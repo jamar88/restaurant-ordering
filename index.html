@@ -44,11 +44,21 @@
 <body>
   <div class="container">
     <h1 class="text-center">Objednávkový systém</h1>
+    <p class="text-center">
+      Vyberte si jídla a nápoje z nabídky níže, zadejte číslo stolu a vytvořte objednávku. Po odeslání objednávky budete přesměrováni na stránku, kde můžete sledovat stav vaší objednávky.
+    </p>
     <form id="orderForm" class="mt-4">
       <!-- Číslo stolu -->
       <div class="mb-3">
         <label for="table" class="form-label">Číslo stolu:*</label>
-        <input type="number" class="form-control form-control-sm table-input" id="table" placeholder="Zadejte číslo stolu" required>
+        <input 
+    type="number" 
+    class="form-control form-control-sm table-input" 
+    id="table" 
+    placeholder="Zadejte číslo stolu (1–10)" 
+    required 
+    min="1" 
+    max="10">
       </div>
 
       <!-- Nabídka jídel -->
@@ -264,6 +274,14 @@ document.getElementById('previewOrder').addEventListener('click', function () {
   document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
 });
 
+    document.getElementById('previewOrder').addEventListener('click', function() {
+  const table = document.getElementById('table');
+  const tableNumber = parseInt(table.value);
+
+  if (!table.value || tableNumber < 1 || tableNumber > 10) {
+    alert('Zadejte číslo stolu od 1 do 10!');
+    return;
+  }
 
     // Odeslání objednávky
     document.getElementById('submitOrder').addEventListener('click', async function () {
