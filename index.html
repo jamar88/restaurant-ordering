@@ -345,41 +345,11 @@
     });
 
     // Zobrazení rekapitulace
-/*document.getElementById('previewOrder').addEventListener('click', function() {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-
-  if (checkboxes.length === 0) {
-    alert('Musíte vybrat alespoň jedno jídlo nebo pití k objednávce.');
-    return;
-  }
-
-  const summaryList = document.getElementById('summaryList');
-  summaryList.innerHTML = '';
-  let totalPrice = 0;
-
-  checkboxes.forEach(checkbox => {
-    const qtyField = document.getElementById(`${checkbox.id}_qty`);
-    const qty = parseInt(qtyField.value) || 1;
-    const [item, price] = checkbox.value.split(' - ');
-    const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
-
-    const listItem = document.createElement('li');
-    listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
-    summaryList.appendChild(listItem);
-
-    totalPrice += itemPrice;
-  });
-
-  document.getElementById('totalPrice').textContent = totalPrice;
-  document.getElementById('orderSummary').classList.remove('d-none');
-});
-*/
-    // Zobrazení rekapitulace
 document.getElementById('previewOrder').addEventListener('click', function() {
   const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 
   if (checkboxes.length === 0) {
-    alert('Musíte vybrat alespoň jedno jídlo nebo pití k objednávce.');
+    alert('Musíte vybrat alespoň jedno jídlo nebo pití před rekapitulací objednávky.');
     return;
   }
 
