@@ -47,7 +47,7 @@
     <form id="orderForm" class="mt-4">
       <!-- Číslo stolu -->
       <div class="mb-3">
-        <label for="table" class="form-label">Číslo stolu:</label>
+        <label for="table" class="form-label">Číslo stolu:*</label>
         <input type="number" class="form-control form-control-sm table-input" id="table" placeholder="Zadejte číslo stolu" required>
       </div>
 
@@ -199,6 +199,11 @@
       <button type="button" class="btn btn-primary mt-3" id="previewOrder">Zobrazit rekapitulaci</button>
     </form>
 
+    <div id="warningMessage" class="alert alert-danger mt-3 d-none" role="alert">
+    Vyberte alespoň jedno jídlo před rekapitulací objednávky.
+    </div>
+
+
     <!-- Rekapitulace objednávky -->
     <div id="orderSummary" class="mt-5 d-none">
       <h2>Rekapitulace</h2>
@@ -221,32 +226,44 @@
       });
     });
 
-    // Zobrazení rekapitulace
-    document.getElementById('previewOrder').addEventListener('click', function() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      const summaryList = document.getElementById('summaryList');
-      summaryList.innerHTML = '';
-      let totalPrice = 0;
+// Zobrazení rekapitulace
+document.getElementById('previewOrder').addEventListener('click', function () {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+  const warningMessage = document.getElementById('warningMessage');
+  const summaryList = document.getElementById('summaryList');
+  summaryList.innerHTML = '';
+  let totalPrice = 0;
 
-      checkboxes.forEach(checkbox => {
-        const qtyField = document.getElementById(`${checkbox.id}_qty`);
-        const qty = parseInt(qtyField.value) || 1;
-        const [item, price] = checkbox.value.split(' - ');
-        const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
+  // Zkontrolujte, zda bylo vybráno alespoň jedno jídlo
+  if (checkboxes.length === 0) {
+    warningMessage.classList.remove('d-none'); // Zobrazit varovnou hlášku
+    warningMessage.scrollIntoView({ behavior: 'smooth' }); // Posunout k hlášce
+    return;
+  } else {
+    warningMessage.classList.add('d-none'); // Skrýt varovnou hlášku, pokud byla dříve zobrazena
+  }
 
-        const listItem = document.createElement('li');
-        listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
-        summaryList.appendChild(listItem);
+  // Pro každou vybranou položku vypočítat množství a cenu
+  checkboxes.forEach(checkbox => {
+    const qtyField = document.getElementById(`${checkbox.id}_qty`);
+    const qty = parseInt(qtyField.value) || 1;
+    const [item, price] = checkbox.value.split(' - ');
+    const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
 
-        totalPrice += itemPrice;
-      });
+    const listItem = document.createElement('li');
+    listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
+    summaryList.appendChild(listItem);
 
-      document.getElementById('totalPrice').textContent = totalPrice;
-      document.getElementById('orderSummary').classList.remove('d-none');
-      
-      // Scroll na sekci rekapitulace
-      document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
-    });
+    totalPrice += itemPrice;
+  });
+
+  document.getElementById('totalPrice').textContent = totalPrice;
+  document.getElementById('orderSummary').classList.remove('d-none');
+
+  // Posun na rekapitulaci
+  document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
+});
+
 
     // Odeslání objednávky
     document.getElementById('submitOrder').addEventListener('click', async function () {
