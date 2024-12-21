@@ -29,6 +29,13 @@
       padding: 5px;
       border-radius: 5px;
     }
+    /* Styl pro mobilní zařízení */
+    @media (max-width: 768px) {
+      td.orders-list {
+        font-size: 12px; /* Menší písmo na mobilních zařízeních */
+        white-space: pre-line; /* Zobrazení více řádků */
+      }
+    }
   </style>
 </head>
 <body>
@@ -65,7 +72,7 @@
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${order.tableNumber}</td>
-            <td>${order.items.map(item => `${item.qty}x ${item.name}`).join(', ')}</td>
+            <td class="orders-list">${order.items.map(item => `${item.qty}x ${item.name}`).join('\n')}</td>
             <td>
               <span class="${
                 order.status === 'completed' ? 'status-completed' : 'status-preparing'
