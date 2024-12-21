@@ -40,6 +40,7 @@
 <body>
   <div class="container">
     <h1 class="text-center">Kuchařské rozhraní</h1>
+     <button class="btn btn-secondary mb-3" onclick="logout()">Odhlásit se</button>
     <p class="text-center">Zde vidíte všechny přijaté objednávky. Kliknutím na tlačítko „Hotovo“ označíte objednávku jako dokončenou.</p>
     
     <div class="table-container">
@@ -60,6 +61,15 @@
   </div>
 
   <script>
+      // Kontrola přihlášení
+  if (localStorage.getItem('loggedIn') !== 'true') {
+    alert('Pro přístup na tuto stránku se musíte přihlásit.');
+    window.location.href = 'login.html'; // Přesměrování na přihlašovací stránku
+  }
+   function logout() {
+    localStorage.removeItem('loggedIn'); // Odstranění přihlašovacího stavu
+    window.location.href = 'login.html'; // Přesměrování na přihlašovací stránku
+  }
     async function loadOrders() {
       try {
         const response = await fetch('https://restaurant-ordering-backend.onrender.com/api/orders');
