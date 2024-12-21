@@ -50,9 +50,8 @@
     .floating-button:hover {
       background-color: #0056b3;
     }
-    /* Mobilní zařízení: upravení velikosti písma a zarovnání */
-    @media (max-width: 768px) {
-      .table th, .table td {
+  @media (max-width: 768px) { /* Pro mobilní zařízení */
+        .table th, .table td {
         font-size: 12px; /* Zmenšení velikosti textu na mobilních zařízeních */
       }
       .order-items {
@@ -61,7 +60,22 @@
       .table thead th {
         white-space: nowrap; /* Zachování názvů sloupců na jednom řádku */
       }
+    .floating-button .button-text {
+      display: none; /* Skryje text na mobilu */
     }
+    .floating-button .button-icon {
+      display: inline; /* Zobrazí ikonu na mobilu */
+    }
+  }
+
+  @media (min-width: 769px) { /* Pro větší zařízení */
+    .floating-button .button-text {
+      display: inline; /* Zobrazí text na desktopu */
+    }
+    .floating-button .button-icon {
+      display: none; /* Skryje ikonu na desktopu */
+    }
+  }
   </style>
 </head>
 <body>
@@ -86,7 +100,10 @@
   </div>
 
   <!-- Plovoucí tlačítko -->
-  <button class="floating-button" onclick="goToNewOrder()">Nová objednávka</button>
+<button class="floating-button" id="newOrderButton" onclick="goToNewOrder()">
+  <span class="button-text">Nová objednávka</span>
+  <span class="button-icon d-none">➕</span>
+</button>
 
   <script>
     // Načítání objednávek
