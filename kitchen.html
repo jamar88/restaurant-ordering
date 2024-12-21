@@ -31,6 +31,10 @@
       border-radius: 5px;
       text-align: center;
     }
+    .order-item {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
   </style>
 </head>
 <body>
@@ -67,16 +71,12 @@
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${order.tableNumber}</td>
-            <td class="orders-list">${order.items.map(item => `${item.qty}x ${item.name}`).join('\n')}</td>
+            <td class="order-item">${order.items.map(item => `${item.qty}x ${item.name}`).join('<br>')}</td>
             <td>
               <span class="${
                 order.status === 'completed' ? 'status-completed' : 'status-preparing'
               }">
-                ${
-                  order.status === 'completed'
-                    ? 'Hotovo'
-                    : 'Přijato<br>k přípravě'
-                }
+                ${order.status === 'completed' ? 'Hotovo' : 'Přijato'}
               </span>
             </td>
             <td>
