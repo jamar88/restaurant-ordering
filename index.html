@@ -15,11 +15,11 @@
     .table-input {
       width: 150px; /* Pole čísla stolu */
     }
-    .select-qty {
-      width: auto; /* Automatická šířka odpovídající obsahu */
-      display: inline-block; /* Umožní dynamickou šířku */
-      text-align-last: center; /* Zarovnání textu na střed */
-    }
+/*    .select-qty {
+/*      width: auto; /* Automatická šířka odpovídající obsahu */
+/*      display: inline-block; /* Umožní dynamickou šířku */
+/*     text-align-last: center; /* Zarovnání textu na střed */ 
+/*    } */
     .floating-button {
       position: fixed;
       bottom: 20px;
@@ -39,20 +39,20 @@
     .floating-button:hover {
       background-color: #0056b3;
     }
-    .menu-item {
+.menu-item {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  justify-content: center; /* Zarovná celé menu na střed */
+  align-items: center; /* Zarovná obsah vertikálně na střed */
+  margin-bottom: 10px; /* Prostor mezi položkami */
 }
+
 .menu-item label {
-  margin-right: auto;
-  margin-left: 10px;
+  margin-right: 10px; /* Vzdálenost mezi textem jídla a výběrem počtu kusů */
 }
-.menu-item .select-qty {
+
+.select-qty {
   width: auto;
-  text-align-last: center;
-  min-width: 60px; /* Minimální šířka pole */
-  display: inline-block;
+  text-align-last: center; /* Zarovnání textu uvnitř pole na střed */
 }
 
   </style>
