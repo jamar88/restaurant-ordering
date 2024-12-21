@@ -33,36 +33,31 @@
   font-weight: bold;
 }
 
-#orderSummary {
+/*#orderSummary {
   text-align: center;
-}
+}*/
 
-#previewOrder,
+/*#previewOrder,
 #submitOrder {
   display: block;
   margin: 20px auto;
-}
-/*.floating-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #007bff; /* Modrá barva */
-/*  color: white;
-  border: none;
-  border-radius: 50px; /* Zaoblené rohy */
-/*  padding: 15px 30px; /* Velikost tlačítka */
-/*  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Stín */
-/*  cursor: pointer;
-  z-index: 1000;
-  transition: background-color 0.3s ease;
+}*/
+
+    #orderSummary {
+  text-align: center;
+  margin: 20px auto;
+  max-width: 600px; /* Nastavení šířky pro čitelnost */
 }
 
-.floating-button:hover {
-  background-color: #0056b3; /* Barva při najetí myší */
-/*} */
+#summaryList {
+  list-style: none; /* Odstranění odrážek z položek seznamu */
+  padding: 0;
+}
+
+#summaryList li {
+  margin-bottom: 10px; /* Mezery mezi položkami seznamu */
+}
+
 .floating-button {
   position: fixed;
   bottom: 20px;
@@ -307,7 +302,7 @@
     </form>
 
     <!-- Rekapitulace objednávky -->
-    <div id="orderSummary" class="mt-5 d-none">
+   <div id="orderSummary" class="mt-5 d-none">
       <h2>Rekapitulace</h2>
       <ul id="summaryList"></ul>
       <p><strong>Celková cena:</strong> <span id="totalPrice"></span> Kč</p>
@@ -330,6 +325,36 @@
       });
     });
 
+    // Zobrazení rekapitulace
+/*document.getElementById('previewOrder').addEventListener('click', function() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+  if (checkboxes.length === 0) {
+    alert('Musíte vybrat alespoň jedno jídlo nebo pití k objednávce.');
+    return;
+  }
+
+  const summaryList = document.getElementById('summaryList');
+  summaryList.innerHTML = '';
+  let totalPrice = 0;
+
+  checkboxes.forEach(checkbox => {
+    const qtyField = document.getElementById(`${checkbox.id}_qty`);
+    const qty = parseInt(qtyField.value) || 1;
+    const [item, price] = checkbox.value.split(' - ');
+    const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
+
+    const listItem = document.createElement('li');
+    listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
+    summaryList.appendChild(listItem);
+
+    totalPrice += itemPrice;
+  });
+
+  document.getElementById('totalPrice').textContent = totalPrice;
+  document.getElementById('orderSummary').classList.remove('d-none');
+});
+*/
     // Zobrazení rekapitulace
 document.getElementById('previewOrder').addEventListener('click', function() {
   const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -357,7 +382,11 @@ document.getElementById('previewOrder').addEventListener('click', function() {
   });
 
   document.getElementById('totalPrice').textContent = totalPrice;
-  document.getElementById('orderSummary').classList.remove('d-none');
+  const orderSummary = document.getElementById('orderSummary');
+  orderSummary.classList.remove('d-none');
+
+  // Automatické scrollování
+  orderSummary.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
 
 
