@@ -35,12 +35,33 @@
       white-space: pre-wrap;
       word-wrap: break-word;
     }
+    .floating-logout-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #6c757d; /* Sekundární barva Bootstrap */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.floating-logout-button:hover {
+  background-color: #5a6268; /* Tmavší odstín pro hover */
+}
+
   </style>
 </head>
 <body>
   <div class="container">
+    <button class="floating-logout-button btn btn-secondary" onclick="logout()">Odhlásit se</button>
+
     <h1 class="text-center">Kuchařské rozhraní</h1>
-     <button class="btn btn-secondary mb-3" onclick="logout()">Odhlásit se</button>
     <p class="text-center">Zde vidíte všechny přijaté objednávky. Kliknutím na tlačítko „Hotovo“ označíte objednávku jako dokončenou.</p>
     
     <div class="table-container">
