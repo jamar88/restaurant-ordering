@@ -9,17 +9,43 @@
     body {
       background-color: #f8f9fa;
     }
-    .container {
+  /*  .container {
       margin-top: 50px;
     }
     .table-input {
       width: 150px; /* Pole čísla stolu */
+.text-center {
+  text-align: center;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-input {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.category-title {
+  margin: 20px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+#orderSummary {
+  text-align: center;
+}
+
+#previewOrder,
+#submitOrder {
+  display: block;
+  margin: 20px auto;
+}
     }
-/*    .select-qty {
-/*      width: auto; /* Automatická šířka odpovídající obsahu */
-/*      display: inline-block; /* Umožní dynamickou šířku */
-/*     text-align-last: center; /* Zarovnání textu na střed */ 
-/*    } */
     .floating-button {
       position: fixed;
       bottom: 20px;
@@ -62,13 +88,13 @@
     <h1 class="text-center">Objednávkový systém</h1>
     <form id="orderForm" class="mt-4">
       <!-- Číslo stolu -->
-      <div class="mb-3">
-        <label for="table" class="form-label">Číslo stolu:</label>
-        <input type="number" class="form-control form-control-sm table-input" id="table" placeholder="Zadejte číslo stolu" required>
-      </div>
+   <div class="center-container">
+  <label for="table" class="form-label">Číslo stolu:</label>
+  <input type="number" class="form-control table-input" id="table" placeholder="Zadejte číslo stolu" required>
+</div>
 
  <!-- Nabídka jídel -->
-<h3>Předkrmy</h3>
+<h3 class="category-title">Předkrmy</h3>
 <div class="menu-item">
   <input class="form-check-input me-2" type="checkbox" value="Bruschetta - 100 Kč" id="bruschetta">
   <label class="form-check-label" for="bruschetta">Bruschetta (100 Kč)</label>
@@ -103,7 +129,7 @@
   </select>
 </div>
 
-<h3>Polévky</h3>
+<h3 class="category-title">Polévky</h3>
 <div class="menu-item">
   <input class="form-check-input me-2" type="checkbox" value="Rajčatová polévka - 90 Kč" id="tomatoSoup">
   <label class="form-check-label" for="tomatoSoup">Rajčatová polévka (90 Kč)</label>
@@ -138,7 +164,7 @@
   </select>
 </div>
 
-<h3>Hlavní jídla</h3>
+<h3 class="category-title">Hlavní jídla</h3>
 <div class="menu-item">
   <input class="form-check-input me-2" type="checkbox" value="Pizza Margherita - 180 Kč" id="pizza">
   <label class="form-check-label" for="pizza">Pizza Margherita (180 Kč)</label>
@@ -173,7 +199,7 @@
   </select>
 </div>
 
-<h3>Teplé nápoje</h3>
+<h3 class="category-title">Teplé nápoje</h3>
 <div class="menu-item">
   <input class="form-check-input me-2" type="checkbox" value="Espresso - 50 Kč" id="espresso">
   <label class="form-check-label" for="espresso">Espresso (50 Kč)</label>
@@ -208,7 +234,7 @@
   </select>
 </div>
 
-<h3>Studené nápoje</h3>
+<h3 class="category-title">Studené nápoje</h3>
 <div class="menu-item">
   <input class="form-check-input me-2" type="checkbox" value="Minerálka - 40 Kč" id="water">
   <label class="form-check-label" for="water">Minerálka (40 Kč)</label>
@@ -245,7 +271,7 @@
 
 
       <!-- Tlačítko pro zobrazení rekapitulace -->
-      <button type="button" class="btn btn-primary mt-3" id="previewOrder">Zobrazit rekapitulaci</button>
+     <button type="button" class="btn btn-primary" id="previewOrder">Zobrazit rekapitulaci</button>
     </form>
 
     <!-- Rekapitulace objednávky -->
