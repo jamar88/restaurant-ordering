@@ -57,25 +57,28 @@
       cursor: pointer;
       z-index: 1000;
     } */
-    .floating-button {
+.floating-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 50px;
-  padding: 15px 30px;
+  border-radius: 25px; /* Zaoblené rohy */
+  padding: 15px 30px; /* Prostor uvnitř tlačítka */
   text-align: center;
-  font-size: 18px;
+  font-size: 16px; /* Velikost písma */
   font-weight: bold;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Stín pro hezčí vzhled */
   cursor: pointer;
   z-index: 1000;
+  transition: background-color 0.3s ease;
 }
-    .floating-button:hover {
-      background-color: #0056b3;
-    }
+
+.floating-button:hover {
+  background-color: #0056b3; /* Změna barvy při najetí myší */
+}
+
 .menu-item {
   display: flex;
   justify-content: center; /* Zarovná celé menu na střed */
