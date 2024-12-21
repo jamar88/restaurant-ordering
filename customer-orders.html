@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Objednávky zákazníků</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     body {
       background-color: #f8f9fa;
@@ -51,6 +51,15 @@
     .floating-button:hover {
       background-color: #0056b3;
     }
+.floating-button .button-icon {
+  display: inline; /* Ikona je viditelná ve všech stavech */
+  font-size: 24px; /* Velikost ikony */
+}
+
+.floating-button .button-text {
+  display: inline; /* Text je výchozí */
+}
+    
   @media (max-width: 768px) { /* Pro mobilní zařízení */
         .table th, .table td {
         font-size: 12px; /* Zmenšení velikosti textu na mobilních zařízeních */
@@ -103,7 +112,7 @@
   <!-- Plovoucí tlačítko -->
 <button class="floating-button" id="newOrderButton" onclick="goToNewOrder()">
   <span class="button-text">Nová objednávka</span>
-  <span class="button-icon d-none"><i class="bi bi-plus-circle"></i></span>
+  <span class="button-icon"><i class="bi bi-plus-circle"></i></span>
 </button>
 
   <script>
