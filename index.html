@@ -9,11 +9,7 @@
     body {
       background-color: #f8f9fa;
     }
-  /*  .container {
-      margin-top: 50px;
-    }
-    .table-input {
-      width: 150px; /* Pole čísla stolu */
+
 .text-center {
   text-align: center;
 }
@@ -24,10 +20,9 @@
   align-items: center;
   justify-content: center;
 }
-
 .table-input {
-  text-align: center;
-  margin-bottom: 15px;
+  width: auto; /* Šířka se přizpůsobí obsahu */
+  text-align: center; /* Zarovnání textu na střed */
 }
 
 .category-title {
@@ -46,7 +41,7 @@
   margin: 20px auto;
 }
     }
-    .floating-button {
+ /*   .floating-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
@@ -61,7 +56,23 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
       cursor: pointer;
       z-index: 1000;
-    }
+    } */
+    .floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+}
     .floating-button:hover {
       background-color: #0056b3;
     }
@@ -88,7 +99,7 @@
     <h1 class="text-center">Objednávkový systém</h1>
     <form id="orderForm" class="mt-4">
       <!-- Číslo stolu -->
-   <div class="center-container">
+ <div class="center-container">
   <label for="table" class="form-label">Číslo stolu:</label>
   <input type="number" class="form-control table-input" id="table" placeholder="Zadejte číslo stolu" required>
 </div>
@@ -282,9 +293,8 @@
       <button type="button" class="btn btn-success" id="submitOrder">Potvrdit objednávku</button>
     </div>
   </div>
-
-  <!-- Plovoucí tlačítko pro přechod na stránku objednávek -->
-  <button class="floating-button" onclick="goToOrders()">Objednávky</button>
+<!-- Plovoucí tlačítko pro přechod na stránku objednávek -->
+<button class="floating-button" onclick="goToOrders()">Objednávky</button>
 
   <!-- JavaScript -->
   <script>
