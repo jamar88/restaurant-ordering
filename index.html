@@ -21,8 +21,9 @@
   justify-content: center;
 }
 .table-input {
-  width: auto; /* Šířka se přizpůsobí obsahu */
+  width: 150px; /* Nastaví pevnou šířku pole */
   text-align: center; /* Zarovnání textu na střed */
+  margin-bottom: 15px;
 }
 
 .category-title {
@@ -40,25 +41,28 @@
   display: block;
   margin: 20px auto;
 }
-    }
-    .floating-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 15px 30px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-    }
-    .floating-button:hover {
-      background-color: #0056b3;
-    }
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff; /* Modrá barva */
+  color: white;
+  border: none;
+  border-radius: 50px; /* Zaoblené rohy */
+  padding: 15px 30px; /* Velikost tlačítka */
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Stín */
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.floating-button:hover {
+  background-color: #0056b3; /* Barva při najetí myší */
+}
+
 
 
 .menu-item {
