@@ -106,12 +106,24 @@
   width: auto;
   text-align-last: center; /* Zarovnání textu uvnitř pole na střed */
 }
+    .text-center p {
+  font-size: 16px;
+  color: #555; /* Jemnější barva textu */
+  margin-bottom: 15px;
+}
 
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="text-center">Objednávkový systém</h1>
+<p class="text-center mt-3">
+  Vítejte v našem objednávkovém systému! Vyberte jídla a nápoje z nabídky níže, zadejte číslo stolu
+  a klikněte na tlačítko <strong>"Zobrazit rekapitulaci"</strong>. Následně potvrďte objednávku.
+</p>
+<p class="text-center">
+  Pokud máte jakékoliv dotazy, kontaktujte prosím personál.
+</p>
     <form id="orderForm" class="mt-4">
       <!-- Číslo stolu -->
  <div class="center-container">
