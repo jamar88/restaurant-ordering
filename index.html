@@ -6,38 +6,14 @@
   <title>Objednávkový systém</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {
-      background-color: #f8f9fa;
+    .select-qty {
+      width: auto; /* Dynamická šířka podle obsahu */
+    }
+    .table-input {
+      width: 150px; /* Pro pole čísla stolu */
     }
     .container {
       margin-top: 50px;
-    }
-    .table-input {
-      width: 150px; /* Pole čísla stolu */
-    }
-    .floating-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 15px 30px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      z-index: 1000;
-    }
-    .floating-button:hover {
-      background-color: #0056b3;
-    }
-    .select-qty {
-  width: auto; /* Automatická šířka odpovídající obsahu */
-  display: inline-block; /* Umožní dynamickou šířku */
-  text-align-last: center; /* Zarovnání textu na střed */
     }
   </style>
 </head>
@@ -50,15 +26,15 @@
     <form id="orderForm" class="mt-4">
       <!-- Číslo stolu -->
       <div class="mb-3">
-        <label for="table" class="form-label">Číslo stolu:*</label>
+        <label for="table" class="form-label">Číslo stolu:</label>
         <input 
-    type="number" 
-    class="form-control form-control-sm table-input" 
-    id="table" 
-    placeholder="Zadejte číslo stolu (1–10)" 
-    required 
-    min="1" 
-    max="10">
+          type="number" 
+          class="form-control form-control-sm table-input" 
+          id="table" 
+          placeholder="Zadejte číslo stolu (1–10)" 
+          required 
+          min="1" 
+          max="10">
       </div>
 
       <!-- Nabídka jídel -->
@@ -205,26 +181,23 @@
       </div>
     </form>
 
-<!-- Tlačítko pro zobrazení rekapitulace -->
+  <!-- Tlačítko pro zobrazení rekapitulace -->
       <button type="button" class="btn btn-primary mt-3" id="previewOrder">Zobrazit rekapitulaci</button>
     </form>
-
-    <div id="warningMessage" class="alert alert-danger mt-3 d-none" role="alert">
-    Vyberte alespoň jedno jídlo před rekapitulací objednávky.
-    </div>
-
 
     <!-- Rekapitulace objednávky -->
     <div id="orderSummary" class="mt-5 d-none">
       <h2>Rekapitulace</h2>
       <ul id="summaryList"></ul>
       <p><strong>Celková cena:</strong> <span id="totalPrice"></span> Kč</p>
-      <button type="button" class="btn btn-success" id="submitOrder">Potvrdit objednávku</button>
+      <button type="submit" class="btn btn-success">Potvrdit objednávku</button>
     </div>
-  </div>
 
-  <!-- Plovoucí tlačítko pro přechod na stránku objednávek -->
-  <button class="floating-button" onclick="goToOrders()">Objednávky</button>
+    <!-- Plovoucí tlačítko -->
+    <a href="customer-orders.html" class="btn btn-warning position-fixed bottom-0 end-0 m-3">
+      Objednávky
+    </a>
+  </div>
 
   <!-- JavaScript -->
   <script>
@@ -236,69 +209,56 @@
       });
     });
 
-// Zobrazení rekapitulace
-document.getElementById('previewOrder').addEventListener('click', function () {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-  const warningMessage = document.getElementById('warningMessage');
-  const summaryList = document.getElementById('summaryList');
-  summaryList.innerHTML = '';
-  let totalPrice = 0;
-
-  // Zkontrolujte, zda bylo vybráno alespoň jedno jídlo
-  if (checkboxes.length === 0) {
-    warningMessage.classList.remove('d-none'); // Zobrazit varovnou hlášku
-    warningMessage.scrollIntoView({ behavior: 'smooth' }); // Posunout k hlášce
-    return;
-  } else {
-    warningMessage.classList.add('d-none'); // Skrýt varovnou hlášku, pokud byla dříve zobrazena
-  }
-
-  // Pro každou vybranou položku vypočítat množství a cenu
-  checkboxes.forEach(checkbox => {
-    const qtyField = document.getElementById(`${checkbox.id}_qty`);
-    const qty = parseInt(qtyField.value) || 1;
-    const [item, price] = checkbox.value.split(' - ');
-    const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
-
-    const listItem = document.createElement('li');
-    listItem.textContent = `${item} (${price} x ${qty}) - ${itemPrice} Kč`;
-    summaryList.appendChild(listItem);
-
-    totalPrice += itemPrice;
-  });
-
-  document.getElementById('totalPrice').textContent = totalPrice;
-  document.getElementById('orderSummary').classList.remove('d-none');
-
-  // Posun na rekapitulaci
-  document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
-});
-
+    // Zobrazení rekapitulace
     document.getElementById('previewOrder').addEventListener('click', function() {
-  const table = document.getElementById('table');
-  const tableNumber = parseInt(table.value);
+      const table = document.getElementById('table');
+      const tableNumber = parseInt(table.value);
 
-  if (!table.value || tableNumber < 1 || tableNumber > 10) {
-    alert('Zadejte číslo stolu od 1 do 10!');
-    return;
-  }
+      if (!table.value || tableNumber < 1 || tableNumber > 10) {
+        alert('Zadejte číslo stolu od 1 do 10!');
+        return;
+      }
+
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      if (checkboxes.length === 0) {
+        alert('Vyberte alespoň jedno jídlo nebo nápoj!');
+        return;
+      }
+
+      const summaryList = document.getElementById('summaryList');
+      summaryList.innerHTML = '';
+      let totalPrice = 0;
+
+      checkboxes.forEach(checkbox => {
+        const qtyField = document.getElementById(`${checkbox.id}_qty`);
+        const qty = parseInt(qtyField.value) || 1;
+        const [item, price] = checkbox.value.split(' - ');
+        const itemPrice = parseInt(price.replace(' Kč', '')) * qty;
+
+        const listItem = document.createElement('li');
+        listItem.textContent = `${qty}x ${item} - ${itemPrice} Kč`;
+        summaryList.appendChild(listItem);
+
+        totalPrice += itemPrice;
+      });
+
+      document.getElementById('totalPrice').textContent = totalPrice;
+      document.getElementById('orderSummary').classList.remove('d-none');
+      document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
+    });
 
     // Odeslání objednávky
-    document.getElementById('submitOrder').addEventListener('click', async function () {
+    document.querySelector('#orderForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
       const table = document.getElementById('table').value;
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-
       const items = Array.from(checkboxes).map(checkbox => {
         const qtyField = document.getElementById(`${checkbox.id}_qty`);
         const qty = parseInt(qtyField.value) || 1;
         const [name] = checkbox.value.split(' - ');
         return { name, qty };
       });
-
-      if (!table) {
-        alert('Zadejte číslo stolu.');
-        return;
-      }
 
       try {
         const response = await fetch('https://restaurant-ordering-backend.onrender.com/api/orders', {
@@ -310,20 +270,13 @@ document.getElementById('previewOrder').addEventListener('click', function () {
         if (response.ok) {
           window.location.href = 'customer-orders.html';
         } else {
-          const error = await response.text();
-          console.error('Chyba při odesílání objednávky:', error);
           alert('Chyba při odesílání objednávky.');
         }
-      } catch (err) {
-        console.error('Chyba při odesílání objednávky:', err);
+      } catch (error) {
+        console.error('Chyba při komunikaci se serverem:', error);
         alert('Chyba při komunikaci se serverem.');
       }
     });
-
-    // Přechod na stránku objednávek
-    function goToOrders() {
-      window.location.href = 'customer-orders.html';
-    }
   </script>
 </body>
 </html>
