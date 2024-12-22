@@ -327,22 +327,42 @@
   <!-- JavaScript -->
   <script>
 //Výběr stolů od 1 do 8
-    document.getElementById('table').addEventListener('input', function() {
-  const value = parseInt(this.value, 8);
+//    document.getElementById('table').addEventListener('input', function() {
+//  const value = parseInt(this.value, 8);
+const tableInput = document.getElementById('table');
 
+/*  if (value < 1) {
+    this.value = 1; // Nastaví minimální hodnotu na 1
+  } else if (value > 8) {
+    this.value = 8; // Nastaví maximální hodnotu na 8
+  }
+});*/
+
+    
+tableInput.addEventListener('input', function () {
+  const value = parseInt(this.value);
   if (value < 1) {
     this.value = 1; // Nastaví minimální hodnotu na 1
-  } else if (value > 10) {
+  } else if (value > 8) {
     this.value = 8; // Nastaví maximální hodnotu na 8
   }
 });
     // Povolit výběr počtu kusů při zaškrtnutí checkboxu
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+/*    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
       checkbox.addEventListener('change', function() {
         const qtyField = document.getElementById(`${checkbox.id}_qty`);
         qtyField.disabled = !checkbox.checked;
       });
-    });
+    });*/
+
+    // Validace při odesílání formuláře
+document.getElementById('submitOrder').addEventListener('click', async function () {
+  const table = parseInt(tableInput.value);
+
+  if (isNaN(table) || table < 1 || table > 8) {
+    alert('Zadejte platné číslo stolu v rozmezí 1 až 8.');
+    return;
+  }
 
     // Zobrazení rekapitulace
 document.getElementById('previewOrder').addEventListener('click', function() {
