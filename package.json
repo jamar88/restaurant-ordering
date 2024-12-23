@@ -1,17 +1,17 @@
 {
-  "name": "restaurant-ordering-backend",
-  "version": "1.0.0",
-  "description": "Backend pro objednávkový systém restaurace",
-  "main": "server.js",
+  "name": "restaurant-ordering-backend", // Název projektu
+  "version": "1.0.0", // Verze projektu
+  "description": "Backend pro objednávkový systém restaurace", // Popis projektu
+  "main": "server.js", // Hlavní soubor aplikace, který se spouští
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js" // Skript pro spuštění aplikace pomocí Node.js
   },
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "body-parser": "^1.20.2", // Middleware pro zpracování těla HTTP požadavků (např. JSON data)
+    "cors": "^2.8.5", // Middleware pro povolení CORS (Cross-Origin Resource Sharing)
+    "express": "^4.18.2" // Webový framework pro Node.js pro snadnou práci s HTTP požadavky
   },
   "engines": {
-    "node": ">=14.x"
+    "node": ">=14.x" // Specifikace minimální verze Node.js pro běh aplikace
   }
 }
