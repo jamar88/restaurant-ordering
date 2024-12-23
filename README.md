@@ -1,6 +1,6 @@
 # Restaurant Ordering System
 
-Tento projekt je kompletní backendový systém pro správu objednávek restaurace. Obsahuje přihlašovací systém, kuchařské rozhraní, a backendovou API pro správu objednávek. Systém je navržen tak, aby byl uživatelsky přívětivý jak pro zákazníky, tak pro kuchaře.
+Tento projekt je kompletní systém pro správu objednávek restaurace. Obsahuje přihlašovací systém, kuchařské rozhraní, a backendovou API pro správu objednávek. Systém je navržen tak, aby byl uživatelsky přívětivý jak pro zákazníky, tak pro kuchaře.
 
 ---
 
