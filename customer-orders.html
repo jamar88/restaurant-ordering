@@ -4,40 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Objednávky zákazníků</title>
+  <!-- Bootstrap CSS pro základní stylování -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
+    /* Nastavení pozadí celé stránky */
     body {
       background-color: #f8f9fa;
     }
+
+    /* Nastavení hlavní kontejneru s odsazením od horní části */
     .container {
       margin-top: 50px;
     }
+
+    /* Kontejner pro tabulku, včetně horizontálního posouvání na malých obrazovkách */
     .table-container {
       margin-top: 30px;
-      overflow-x: auto; /* Umožňuje horizontální posouvání na velmi malých obrazovkách */
+      overflow-x: auto; /* Umožňuje posouvání na malých obrazovkách */
     }
+
+    /* Stylování stavu "V přípravě" */
     .status-preparing {
-      background-color: #ffcc00; /* Oranžová */
+      background-color: #ffcc00; /* Oranžová barva */
       color: black;
       font-weight: bold;
       padding: 5px;
       border-radius: 5px;
       text-align: center;
     }
+
+    /* Stylování stavu "K vyzvednutí" */
     .status-completed {
-      background-color: #28a745; /* Zelená */
+      background-color: #28a745; /* Zelená barva */
       color: white;
       font-weight: bold;
       padding: 5px;
       border-radius: 5px;
       text-align: center;
     }
+
+    /* Plovoucí tlačítko pro přidání nové objednávky */
     .floating-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background-color: #007bff;
+      background-color: #007bff; /* Modrá barva tlačítka */
       color: white;
       border: none;
       border-radius: 50px;
@@ -45,55 +57,75 @@
       text-align: center;
       font-size: 18px;
       font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Jemný stín */
       cursor: pointer;
     }
+
+    /* Styl tlačítka při najetí myší */
     .floating-button:hover {
       background-color: #0056b3;
     }
-.floating-button .button-icon {
-  display: inline; /* Ikona je viditelná ve všech stavech */
-  font-size: 24px; /* Velikost ikony */
-}
 
-.floating-button .button-text {
-  display: inline; /* Text je výchozí */
-}
-    
-  @media (max-width: 768px) { /* Pro mobilní zařízení */
-        .table th, .table td {
-        font-size: 12px; /* Zmenšení velikosti textu na mobilních zařízeních */
+    /* Ikona uvnitř plovoucího tlačítka */
+    .floating-button .button-icon {
+      display: inline; /* Ikona je vždy viditelná */
+      font-size: 24px; /* Velikost ikony */
+    }
+
+    /* Text uvnitř plovoucího tlačítka */
+    .floating-button .button-text {
+      display: inline; /* Text je viditelný na větších zařízeních */
+    }
+
+    /* Média dotazy pro mobilní zařízení */
+    @media (max-width: 768px) {
+      /* Zmenšení velikosti textu v tabulce */
+      .table th, .table td {
+        font-size: 12px;
       }
+
+      /* Každá položka objednávky na novém řádku */
       .order-items {
-        white-space: pre-line; /* Každá objednávka na novém řádku */
+        white-space: pre-line;
       }
-      .table thead th {
-        white-space: nowrap; /* Zachování názvů sloupců na jednom řádku */
-      }
-    .floating-button .button-text {
-      display: none; /* Skryje text na mobilu */
-    }
-    .floating-button .button-icon {
-      display: inline; /* Zobrazí ikonu na mobilu */
-    }
-  }
 
-  @media (min-width: 769px) { /* Pro větší zařízení */
-    .floating-button .button-text {
-      display: inline; /* Zobrazí text na desktopu */
+      /* Zachování názvů sloupců na jednom řádku */
+      .table thead th {
+        white-space: nowrap;
+      }
+
+      /* Skrytí textu plovoucího tlačítka na mobilu */
+      .floating-button .button-text {
+        display: none;
+      }
+
+      /* Ikona plovoucího tlačítka zůstane viditelná */
+      .floating-button .button-icon {
+        display: inline;
+      }
     }
-    .floating-button .button-icon {
-      display: none; /* Skryje ikonu na desktopu */
+
+    /* Média dotazy pro větší zařízení */
+    @media (min-width: 769px) {
+      /* Zobrazení textu plovoucího tlačítka na desktopu */
+      .floating-button .button-text {
+        display: inline;
+      }
+
+      /* Skrytí ikony plovoucího tlačítka na desktopu */
+      .floating-button .button-icon {
+        display: none;
+      }
     }
-  }
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="text-center">Objednávky zákazníků</h1>
     <p class="text-center">Zde vidíte své objednávky, které jsou v přípravě nebo připravené k vyzvednutí.</p>
-    
+
     <div class="table-container">
+      <!-- Tabulka pro zobrazení objednávek -->
       <table class="table table-striped">
         <thead>
           <tr>
@@ -103,31 +135,32 @@
           </tr>
         </thead>
         <tbody id="ordersTable">
-          <!-- Objednávky se načítají dynamicky -->
+          <!-- Objednávky budou načteny dynamicky pomocí JavaScriptu -->
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Plovoucí tlačítko -->
-<button class="floating-button" id="newOrderButton" onclick="goToNewOrder()">
-  <span class="button-text">Nová objednávka</span>
-  <span class="button-icon"><i class="bi bi-plus-circle"></i></span>
-</button>
+  <!-- Plovoucí tlačítko pro přidání nové objednávky -->
+  <button class="floating-button" id="newOrderButton" onclick="goToNewOrder()">
+    <span class="button-text">Nová objednávka</span>
+    <span class="button-icon"><i class="bi bi-plus-circle"></i></span>
+  </button>
 
   <script>
-    // Načítání objednávek
+    // Funkce pro načítání objednávek z API serveru
     async function loadOrders() {
       try {
         const response = await fetch('https://restaurant-ordering-backend.onrender.com/api/orders');
-        const orders = await response.json();
+        const orders = await response.json(); // Zpracování odpovědi jako JSON
         const table = document.getElementById('ordersTable');
-        table.innerHTML = '';
+        table.innerHTML = ''; // Vymazání předchozího obsahu tabulky
 
+        // Iterace přes objednávky a jejich zobrazení v tabulce
         orders.forEach(order => {
           const row = document.createElement('tr');
 
-          // Vytvoření seznamu objednávek s novými řádky na mobilních zařízeních
+          // Formátování položek objednávky s novými řádky
           const formattedItems = order.items.map(item => `${item.qty}x ${item.name}`).join('\n');
 
           row.innerHTML = `
@@ -139,19 +172,19 @@
               }">${order.status === 'completed' ? 'K vyzvednutí' : 'V přípravě'}</span>
             </td>
           `;
-          table.appendChild(row);
+          table.appendChild(row); // Přidání řádku do tabulky
         });
       } catch (error) {
-        console.error('Chyba při načítání objednávek:', error);
+        console.error('Chyba při načítání objednávek:', error); // Výpis chyby v konzoli
       }
     }
 
-    // Přesměrování na stránku nové objednávky
+    // Funkce pro přesměrování na stránku nové objednávky
     function goToNewOrder() {
-      window.location.href = 'index.html';
+      window.location.href = 'index.html'; // Přesměrování na jinou stránku
     }
 
-    // Načítání objednávek každých 5 sekund
+    // Automatické načítání objednávek každých 5 sekund
     loadOrders();
     setInterval(loadOrders, 5000);
   </script>
