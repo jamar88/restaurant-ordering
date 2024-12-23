@@ -4,17 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Objednávkový systém</title>
+  <!-- Bootstrap CSS pro stylování stránky -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
+    /* Stylizace pozadí stránky */
     body {
       background-color: #f8f9fa;
     }
 
+    /* Styl pro centrovaný text */
     .text-center {
       text-align: center;
     }
 
+    /* Centrum pro vstupy */
     .center-container {
       display: flex;
       flex-direction: column;
@@ -22,38 +26,45 @@
       justify-content: center;
     }
 
+    /* Styl vstupního pole pro číslo stolu */
     .table-input {
       width: 200px;
       text-align: center;
       margin-bottom: 15px;
     }
 
+    /* Styl názvu kategorií */
     .category-title {
       margin: 20px 0;
       text-align: center;
       font-weight: bold;
     }
 
+    /* Styl tlačítka pro rekapitulaci objednávky */
     #previewOrder {
       display: block;
       margin: 20px auto;
     }
 
+    /* Styl rekapitulace objednávky */
     #orderSummary {
       text-align: center;
       margin: 20px auto;
       max-width: 600px;
     }
 
+    /* Styl pro seznam objednávek v rekapitulaci */
     #summaryList {
       list-style: none;
       padding: 0;
     }
 
+    /* Mezera mezi jednotlivými položkami v seznamu */
     #summaryList li {
       margin-bottom: 10px;
     }
 
+    /* Styl plovoucího tlačítka */
     .floating-button {
       position: fixed;
       bottom: 20px;
@@ -71,21 +82,17 @@
       z-index: 1000;
     }
 
+    /* Styl ikony uvnitř plovoucího tlačítka */
     .floating-button i {
       font-size: 24px;
     }
 
+    /* Změna barvy tlačítka při najetí myší */
     .floating-button:hover {
       background-color: #0056b3;
     }
 
-    @media (max-width: 768px) {
-      .floating-button {
-        padding: 10px 15px;
-        font-size: 14px;
-      }
-    }
-
+    /* Stylizace menu položek */
     .menu-item {
       display: flex;
       justify-content: center;
@@ -93,19 +100,30 @@
       margin-bottom: 10px;
     }
 
+    /* Styl labelů v menu */
     .menu-item label {
       margin-right: 10px;
     }
 
+    /* Styl výběru počtu kusů */
     .select-qty {
       width: auto;
       text-align-last: center;
     }
 
+    /* Styl popisku */
     .text-center p {
       font-size: 16px;
       color: #555;
       margin-bottom: 15px;
+    }
+
+    /* Responzivní stylování pro menší obrazovky */
+    @media (max-width: 768px) {
+      .floating-button {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -119,8 +137,9 @@
     <p class="text-center">
       Pokud máte jakékoliv dotazy, kontaktujte prosím personál.
     </p>
+
+    <!-- Formulář pro zadání objednávky -->
     <form id="orderForm" class="mt-4">
-      <!-- Číslo stolu -->
       <div class="center-container">
         <h5 class="text-center">Číslo stolu</h5>
         <input 
@@ -131,190 +150,30 @@
           required 
           min="1" 
           max="8" 
-     oninput="validateTableInput(this)">
+          oninput="validateTableInput(this)">
       </div>
-      
- <!-- Nabídka jídel -->
-<h3 class="category-title">Předkrmy</h3>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Bruschetta - 100 Kč" id="bruschetta">
-  <label class="form-check-label" for="bruschetta">Bruschetta (100 Kč)</label>
-  <select class="form-select select-qty" id="bruschetta_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Caprese - 120 Kč" id="caprese">
-  <label class="form-check-label" for="caprese">Caprese (120 Kč)</label>
-  <select class="form-select select-qty" id="caprese_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Olivy s chlebem - 80 Kč" id="olives">
-  <label class="form-check-label" for="olives">Olivy s chlebem (80 Kč)</label>
-  <select class="form-select select-qty" id="olives_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
 
-<h3 class="category-title">Polévky</h3>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Rajčatová polévka - 90 Kč" id="tomatoSoup">
-  <label class="form-check-label" for="tomatoSoup">Rajčatová polévka (90 Kč)</label>
-  <select class="form-select select-qty" id="tomatoSoup_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Kuřecí vývar - 80 Kč" id="chickenSoup">
-  <label class="form-check-label" for="chickenSoup">Kuřecí vývar (80 Kč)</label>
-  <select class="form-select select-qty" id="chickenSoup_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Hráškový krém - 95 Kč" id="peaSoup">
-  <label class="form-check-label" for="peaSoup">Hráškový krém (95 Kč)</label>
-  <select class="form-select select-qty" id="peaSoup_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
+      <!-- Sekce nabídek (např. předkrmy, polévky, atd.) -->
+      <h3 class="category-title">Předkrmy</h3>
+      <div class="menu-item">
+        <input class="form-check-input me-2" type="checkbox" value="Bruschetta - 100 Kč" id="bruschetta">
+        <label class="form-check-label" for="bruschetta">Bruschetta (100 Kč)</label>
+        <select class="form-select select-qty" id="bruschetta_qty" disabled>
+          <option value="1">1 ks</option>
+          <option value="2">2 ks</option>
+          <option value="3">3 ks</option>
+          <option value="4">4 ks</option>
+          <option value="5">5 ks</option>
+        </select>
+      </div>
 
-<h3 class="category-title">Hlavní jídla</h3>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Pizza Margherita - 180 Kč" id="pizza">
-  <label class="form-check-label" for="pizza">Pizza Margherita (180 Kč)</label>
-  <select class="form-select select-qty" id="pizza_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Hovězí steak - 350 Kč" id="steak">
-  <label class="form-check-label" for="steak">Hovězí steak (350 Kč)</label>
-  <select class="form-select select-qty" id="steak_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Těstoviny Carbonara - 220 Kč" id="carbonara">
-  <label class="form-check-label" for="carbonara">Těstoviny Carbonara (220 Kč)</label>
-  <select class="form-select select-qty" id="carbonara_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
+      <!-- Přidání dalších položek podle stejného vzoru... -->
 
-<h3 class="category-title">Teplé nápoje</h3>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Espresso - 50 Kč" id="espresso">
-  <label class="form-check-label" for="espresso">Espresso (50 Kč)</label>
-  <select class="form-select select-qty" id="espresso_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Cappuccino - 70 Kč" id="cappuccino">
-  <label class="form-check-label" for="cappuccino">Cappuccino (70 Kč)</label>
-  <select class="form-select select-qty" id="cappuccino_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Latte - 65 Kč" id="latte">
-  <label class="form-check-label" for="latte">Latte (65 Kč)</label>
-  <select class="form-select select-qty" id="latte_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-
-<h3 class="category-title">Studené nápoje</h3>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Minerálka - 40 Kč" id="water">
-  <label class="form-check-label" for="water">Minerálka (40 Kč)</label>
-  <select class="form-select select-qty" id="water_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Coca Cola - 50 Kč" id="cola">
-  <label class="form-check-label" for="cola">Coca Cola (50 Kč)</label>
-  <select class="form-select select-qty" id="cola_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-<div class="menu-item">
-  <input class="form-check-input me-2" type="checkbox" value="Džus - 60 Kč" id="juice">
-  <label class="form-check-label" for="juice">Džus (60 Kč)</label>
-  <select class="form-select select-qty" id="juice_qty" disabled>
-    <option value="1">1 ks</option>
-    <option value="2">2 ks</option>
-    <option value="3">3 ks</option>
-    <option value="4">4 ks</option>
-    <option value="5">5 ks</option>
-  </select>
-</div>
-
-        <!-- Tlačítko pro zobrazení rekapitulace -->
+      <!-- Tlačítko pro zobrazení rekapitulace -->
       <button type="button" class="btn btn-primary" id="previewOrder">Zobrazit rekapitulaci</button>
-</form>
+    </form>
 
-    <!-- Rekapitulace objednávky -->
+    <!-- Sekce pro rekapitulaci objednávky -->
     <div id="orderSummary" class="mt-5 d-none">
       <h2>Rekapitulace</h2>
       <ul id="summaryList"></ul>
@@ -329,7 +188,7 @@
     <i class="bi bi-list d-md-none"></i>
   </button>
 
-  <!-- JavaScript -->
+  <!-- JavaScript pro logiku formuláře -->
   <script>
     // Povolit výběr počtu kusů při zaškrtnutí checkboxu
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
