@@ -1,17 +1,31 @@
 {
-  "name": "restaurant-ordering-backend", // Název projektu
-  "version": "1.0.0", // Verze projektu
-  "description": "Backend pro objednávkový systém restaurace", // Popis projektu
-  "main": "server.js", // Hlavní soubor aplikace, který se spouští
+  "_comment": "Název projektu, který identifikuje backend aplikace",
+  "name": "restaurant-ordering-backend",
+  
+  "_comment_version": "Verze projektu podle semver (semantic versioning)",
+  "version": "1.0.0",
+  
+  "_comment_description": "Krátký popis projektu",
+  "description": "Backend pro objednávkový systém restaurace",
+  
+  "_comment_main": "Hlavní vstupní soubor aplikace",
+  "main": "server.js",
+  
+  "_comment_scripts": "Definice skriptů pro spuštění a správu aplikace",
   "scripts": {
-    "start": "node server.js" // Skript pro spuštění aplikace pomocí Node.js
+    "_comment_start": "Skript pro spuštění aplikace pomocí Node.js",
+    "start": "node server.js"
   },
+  
+  "_comment_dependencies": "Seznam závislostí potřebných pro aplikaci",
   "dependencies": {
-    "body-parser": "^1.20.2", // Middleware pro zpracování těla HTTP požadavků (např. JSON data)
-    "cors": "^2.8.5", // Middleware pro povolení CORS (Cross-Origin Resource Sharing)
-    "express": "^4.18.2" // Webový framework pro Node.js pro snadnou práci s HTTP požadavky
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
   },
+  
+  "_comment_engines": "Specifikace minimální požadované verze Node.js",
   "engines": {
-    "node": ">=14.x" // Specifikace minimální verze Node.js pro běh aplikace
+    "node": ">=14.x"
   }
 }
