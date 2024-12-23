@@ -174,6 +174,6 @@ Tento projekt je kompletní systém pro správu objednávek restaurace. Obsahuje
 - Přidání autentizace pomocí JWT.
 - Možnost editace existujících objednávek.
 - Notifikace pro kuchaře při přijetí nové objednávky.
-- Změna protokolu z HTTP na HTTPS
-- Databáze objednávek
+- Změna protokolu z HTTP na HTTPS.
+- Databáze objednávek.
 
