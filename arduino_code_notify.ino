@@ -6,91 +6,91 @@
 #include <vector>
 #include <map>
 
-// Wi-Fi credentials
-const char* ssid = "SSID"; //Zde zadejte své SSID
-const char* password = "PASS"; //Zde zadejte své heslo
+// Wi-Fi přihlašovací údaje
+const char* ssid = "SSID"; // Zadejte název vaší Wi-Fi sítě
+const char* password = "PASS"; // Zadejte heslo k vaší Wi-Fi
 
-// Web server API
-const char* serverName = "https://restaurant-ordering-backend.onrender.com/api/orders"; //ZDe je potřeba vypnlit svůj api server
+// Adresa API serveru
+const char* serverName = "https://restaurant-ordering-backend.onrender.com/api/orders"; // URL serveru pro získávání objednávek
 
-// LED matrix setup
-const int pinCS = 5;      // Chip Select pin
-const int hDisplays = 4;  // Počet horizontálních displejů (4)
-const int vDisplays = 1;  // Počet vertikálních displejů (1)
+// Nastavení LED matice
+const int pinCS = 5;      // Pin pro chip select na LED matici
+const int hDisplays = 4;  // Počet horizontálních displejů
+const int vDisplays = 1;  // Počet vertikálních displejů
 Max72xxPanel matrix(pinCS, hDisplays, vDisplays);
 
-// DFPlayer setup
-HardwareSerial mySerial(1);  // Use UART1
+// Nastavení DFPlayer Mini
+HardwareSerial mySerial(1);  // Využití UART1 pro komunikaci
 DFRobotDFPlayerMini myDFPlayer;
 
-// Track processed orders and their display counts
+// Sledování zpracovaných objednávek a jejich počtu zobrazení
 std::map<int, int> orderDisplayCounts;
 
 void setup() {
-  // Initialize serial communication
+  // Inicializace sériové komunikace
   Serial.begin(115200);
-  mySerial.begin(9600, SERIAL_8N1, 16, 17); // RX on GPIO16, TX on GPIO17
+  mySerial.begin(9600, SERIAL_8N1, 16, 17); // RX na GPIO16, TX na GPIO17
 
-  // Initialize DFPlayer
+  // Inicializace DFPlayer Mini
   if (!myDFPlayer.begin(mySerial)) {
-    Serial.println(F("DFPlayer initialization failed!"));
-    while (true);
+    Serial.println(F("Inicializace DFPlayer selhala!"));
+    while (true); // Zastavení programu při selhání inicializace
   }
-  Serial.println(F("DFPlayer Mini online."));
-  myDFPlayer.volume(10);  // Set volume value. From 0 to 30
+  Serial.println(F("DFPlayer Mini je online."));
+  myDFPlayer.volume(20);  // Nastavení hlasitosti (rozsah 0-30)
 
-  // Initialize Wi-Fi
+  // Připojení k Wi-Fi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");
+    Serial.print("."); // Indikace čekání na připojení
   }
-  Serial.println("\nWiFi connected!");
+  Serial.println("\nWiFi připojeno!");
 
-  // Initialize LED matrix
-  matrix.setIntensity(1); // Brightness level
-  matrix.fillScreen(LOW); // Clear screen
+  // Inicializace LED matice
+  matrix.setIntensity(1); // Nastavení jasu
+  matrix.fillScreen(LOW); // Vymazání obrazovky
   matrix.write();
 
-  // Rotate and map the LED matrix panels
+  // Otočení a mapování panelů LED matice
   for (int i = 0; i < hDisplays; i++) {
-    matrix.setRotation(i, 1); // Set rotation for proper horizontal orientation
+    matrix.setRotation(i, 1); // Otočení pro správnou orientaci
   }
 
-  // Show startup message
+  // Zobrazení úvodní zprávy
   displayMessage("System Ready");
 }
 
 void loop() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
-    http.begin(serverName);
+    http.begin(serverName); // Inicializace HTTP klienta
 
-    int httpResponseCode = http.GET();
-    if (httpResponseCode == 200) {
+    int httpResponseCode = http.GET(); // Odeslání GET požadavku
+    if (httpResponseCode == 200) { // Pokud je odpověď 200 OK
       String response = http.getString();
-      Serial.println("Server response: " + response);
-      handleServerResponse(response);
+      Serial.println("Odpověď serveru: " + response);
+      handleServerResponse(response); // Zpracování odpovědi serveru
     } else {
-      Serial.printf("Error: %d\n", httpResponseCode);
+      Serial.printf("Chyba: %d\n", httpResponseCode); // Výpis chyby
     }
-    http.end();
+    http.end(); // Ukončení HTTP požadavku
   } else {
-    Serial.println("WiFi disconnected!");
-    WiFi.reconnect();
+    Serial.println("WiFi odpojeno!");
+    WiFi.reconnect(); // Pokus o znovupřipojení k Wi-Fi
   }
 
-  delay(5000); // Poll server every 5 seconds
+  delay(5000); // Dotazování na server každých 5 sekund
 }
 
 void handleServerResponse(String response) {
   int orderStart = response.indexOf("{\"id\":");
-  while (orderStart != -1) {
+  while (orderStart != -1) { // Zpracování jednotlivých objednávek
     int idStart = response.indexOf("\"id\":", orderStart) + 5;
     int idEnd = response.indexOf(",", idStart);
     int orderId = response.substring(idStart, idEnd).toInt();
 
-    // If the order hasn't been processed twice
+    // Pokud objednávka ještě nebyla zpracována dvakrát
     if (orderDisplayCounts[orderId] < 2) {
       int statusIndex = response.indexOf("\"status\":\"completed\"", orderStart);
       if (statusIndex != -1) {
@@ -98,46 +98,46 @@ void handleServerResponse(String response) {
         int tableEnd = response.indexOf(",", tableIndex);
         int tableNumber = response.substring(tableIndex, tableEnd).toInt();
 
-        // Display and play audio only once
+        // Zobrazení a přehrání zvuku pouze jednou
         if (orderDisplayCounts[orderId] == 0) {
-          playAudio(tableNumber); // Play audio once
+          playAudio(tableNumber); // Přehrání zvuku pro číslo stolu
         }
 
-        notifyOrderReady(tableNumber);
-        orderDisplayCounts[orderId]++;
+        notifyOrderReady(tableNumber); // Oznámení připravené objednávky
+        orderDisplayCounts[orderId]++; // Zvýšení počtu zobrazení
       }
     }
-    orderStart = response.indexOf("{\"id\":", orderStart + 1);
+    orderStart = response.indexOf("{\"id\":", orderStart + 1); // Pokračování na další objednávku
   }
 }
 
 void notifyOrderReady(int tableNumber) {
-  // Display message on LED matrix
+  // Zobrazení zprávy na LED matici
   String message = "Objednavka pro stul " + String(tableNumber) + " pripravena";
   displayMessage(message);
 
-  // Clear display after showing message
+  // Vymazání obrazovky po zobrazení zprávy
   matrix.fillScreen(LOW);
   matrix.write();
 }
 
 void displayMessage(String text) {
   int textLength = text.length();
-  int scrollWidth = textLength * 6 + hDisplays * 8; // Total width for scrolling
-  for (int i = hDisplays * 8; i > -scrollWidth; i--) { // Scroll from left to right
+  int scrollWidth = textLength * 6 + hDisplays * 8; // Výpočet šířky pro posun
+  for (int i = hDisplays * 8; i > -scrollWidth; i--) { // Posun zprávy zleva doprava
     matrix.fillScreen(LOW);
-    matrix.setCursor(i, 0); // Set cursor for horizontal scrolling
+    matrix.setCursor(i, 0); // Nastavení kurzoru pro posun
     matrix.print(text);
     matrix.write();
-    delay(50); // Adjust speed of scrolling
+    delay(50); // Nastavení rychlosti posunu
   }
 }
 
 void playAudio(int tableNumber) {
   if (tableNumber > 0 && tableNumber <= 8) {
-    myDFPlayer.play(tableNumber); // Play the corresponding MP3 file
-    Serial.println("Playing audio for table: " + String(tableNumber));
+    myDFPlayer.play(tableNumber); // Přehrání odpovídajícího MP3 souboru
+    Serial.println("Přehrávám zvuk pro stůl: " + String(tableNumber));
   } else {
-    Serial.println("Invalid table number for audio playback!");
+    Serial.println("Neplatné číslo stolu pro přehrání zvuku!");
   }
 }
