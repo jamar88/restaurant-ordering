@@ -15,6 +15,8 @@ Tento projekt je kompletní systém pro správu objednávek restaurace. Obsahuje
    - Na LED matici se zobrazí zpráva, že objednávka je připravena.
    - Přehraje se zvukové upozornění signalizující, že objednávka je hotová.
 
+web adress:  https://jamar88.github.io/restaurant-ordering/
+
 ---
 
 ## Struktura projektu
